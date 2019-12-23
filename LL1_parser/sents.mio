@@ -1,0 +1,19 @@
+PROGRAMA factorial      # programa de ejemplo
+x = 0x0
+y = x            #comentario
+
+SI x == y ENTONCES
+    IMPRIME "hola"		# imprime una cadena
+FINSI
+
+REPITE 0x10 VECES 
+    IMPRIME var09
+FINREP
+
+SI x > y ENTONCES
+    x = y
+SINO
+    x = x + y
+FINSI
+
+FINPROG

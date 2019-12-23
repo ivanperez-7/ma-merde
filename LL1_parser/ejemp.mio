@@ -1,0 +1,29 @@
+PROGRAMA otroejemplo
+# prueba de compilador
+
+LEE x
+LEE y
+s = x + y
+
+SI s < 0x0 ENTONCES
+    IMPRIME "success"
+SINO
+    SI s > 0x0 ENTONCES
+        IMPRIME "successn't"
+    FINSI
+
+    REPITE 0x5 VECES
+        IMPRIME "kkkkkkkkk"
+    FINREP
+FINSI
+
+LEE z
+IMPRIME z
+
+SI z == 0x0 ENTONCES
+    IMPRIME "el programa funciona bien"
+FINSI
+
+IMPRIME "vuelva pronto"
+
+FINPROG
