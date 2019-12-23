@@ -1,0 +1,56 @@
+# programa para probar el compilador
+PROGRAMA ejemplo            # comentario equisde
+
+IMPRIME "Que desea hacer?"          # calculadora basica con dos numeros
+IMPRIME "1. SUmar"
+IMPRIME "2. Restar"
+IMPRIME "3. Multiplicar"
+IMPRIME "4. Dividir"
+IMPRIME "5. No c bro xdxddx"
+
+LEE opcion
+
+SI opcion == 0x1 ENTONCES       # if's anidados
+    res = num1 + num2
+SINO
+    SI opcion == 0x2 ENTONCES
+        res = num1 - num2
+    SINO
+        SI opcion == 0x3 ENTONCES
+            res = num1 * num2
+        SINO
+            SI opcion == 0x4 ENTONCES
+                res = num1 / num2
+            SINO 
+                IMPRIME "Opcion no definida"
+                res = 0x0
+            FINSI
+        FINSI
+    FINSI
+FINSI   
+
+IMPRIME "El resultado de la operacion es "
+IMPRIME res
+
+i = 0x0
+
+REPITE 0xF VECES                # sentencia para repetir
+    IMPRIME i
+    i = i + 0xF 
+FINREP
+
+IMPRIME "Lol?"
+IMPRIME "1.- si"
+IMPRIME "2.- no"
+
+LEE respuesta
+
+SI respuesta == 0x1 ENTONCES
+    IMPRIME "LOL !!!"
+SINO
+    IMPRIME "lol"
+FINSI
+
+IMPRIME "vuelva pronto"
+
+FINPROG
