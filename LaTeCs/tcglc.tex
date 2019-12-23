@@ -1,0 +1,456 @@
+\documentclass[11pt,fleqn]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper, margin=1in]{geometry}
+\usepackage[linguistics]{forest}
+\usepackage{tgpagella,amssymb,mathtools,tikz,enumitem,changepage}
+
+\usetikzlibrary{automata, positioning, arrows}
+\tikzset{->, >=stealth, node distance=3cm, every state/.style={thick, fill=gray!10}, initial text= $ $}
+
+\newcommand{\solution}{\textcolor{blue}{\textbf{Solución. }}}
+
+\title{Teoría de la Computación, ADA \#6 \\ \textsc{Gramáticas Libres de Contexto y Autómatas de Pila}}
+\author{Iván Alberto Pérez Maldonado}
+\date{5 de diciembre de 2019}
+
+\begin{document}
+
+\maketitle
+
+De manera individual, resolver los siguientes ejercicios:
+\begin{enumerate}
+    \item Diseña una gramática libre de contexto para el lenguaje $$L = \{ a^ib^jc^k \mid i=j \ \ \text{o} \ \ j=k, \text{   con   } i,j,k \geq 0 \}.$$ Construye un autómata de pila para reconocer las cadenas que pertenecen al lenguaje y muestra la traza para la cadena $aabbbccc$. \\
+    \solution La gramática propuesta es la siguiente:
+    \begin{align*}
+        S &\rightarrow AS_1 \\ 
+        S &\rightarrow S_2C \\
+        S_1 &\rightarrow bS_1c \\
+        S_1 &\rightarrow \varepsilon \\
+        A &\rightarrow aA \\
+        A &\rightarrow \varepsilon \\
+        S_2 &\rightarrow aS_2b \\
+        S_2 &\rightarrow \varepsilon \\
+        C &\rightarrow cC \\
+        C &\rightarrow \varepsilon
+    \end{align*}
+    El autómata de pila construido es el siguiente:
+    \begin{center}
+        \begin{tikzpicture}
+            \node[state, initial, accepting] (q1) {$q_1$};
+            \node[state, above right of=q1] (q2) {$q_2$};
+            \node[state, right of=q2] (q3) {$q_3$};
+            \node[state, accepting, right of=q3] (q4) {$q_4$};
+            \node[state, accepting, below right of=q1] (q5) {$q_5$};
+            \node[state, right of=q5] (q6) {$q_6$};
+            \node[state, right of=q6] (q7) {$q_7$};
+            \node[state, accepting, right of=q7] (q8) {$q_8$};
+            \path (q1) edge[left] node{$\varepsilon / \varepsilon / \varepsilon$} (q2)
+                       edge[bend right=15] node [below ]{$\varepsilon / \varepsilon / \varepsilon$} (q4)
+                       edge[left] node{$\varepsilon / \varepsilon / \varepsilon$} (q5)
+                  (q2) edge[loop above] node{$a/ \varepsilon / a$} (q2)
+                       edge[above] node{$a/ \varepsilon / a$} (q3)
+                  (q3) edge[loop above] node{$b/ a / \varepsilon$} (q3)
+                       edge[above] node{$b/ a / \varepsilon$} (q4)
+                  (q4) edge[loop above] node{$c / \varepsilon / \varepsilon$} (q4)
+                  (q5) edge[loop above] node{$a / \varepsilon / \varepsilon$} (q5)
+                       edge[above] node{$\varepsilon / \varepsilon / \varepsilon$} (q6)
+                  (q6) edge[loop above] node{$b / \varepsilon / b$} (q6)
+                       edge[above] node{$b / \varepsilon / b$} (q7)
+                  (q7) edge[loop above] node{$c / b / \varepsilon$} (q7)
+                       edge[above] node{$c / b / \varepsilon$} (q8);
+        \end{tikzpicture}
+    \end{center}
+    
+    Traza para la cadena $aabbbccc$:
+    \begin{center}
+        \begin{tabular}{c|c|c}
+            \hline 
+            Estado & Por leer & Pila \\ 
+            \hline 
+            $q_1$ & $aabbbccc$ & $\varepsilon$ \\ 
+            \hline 
+            $q_5$ & $aabbbccc$ & $\varepsilon$ \\ 
+            \hline 
+            $q_5$ & $abbbccc$ & $\varepsilon$ \\  
+            \hline 
+            $q_5$ & $bbbccc$ & $\varepsilon$ \\  
+            \hline 
+            $q_6$ & $bbbccc$ & $\varepsilon$ \\  
+            \hline
+            $q_6$ & $bbccc$ & $b$ \\  
+            \hline
+            $q_6$ & $bccc$ & $bb$ \\  
+            \hline
+            $q_7$ & $ccc$ & $bbb$ \\  
+            \hline
+            $q_7$ & $cc$ & $bb$ \\  
+            \hline
+            $q_7$ & $c$ & $b$ \\  
+            \hline
+            $q_8$ & $\varepsilon$ & $\varepsilon$ \\  
+            \hline
+        \end{tabular} 
+    \end{center}
+    
+    \item Considera las siguientes reglas de la gramática de un lenguaje de programación para una sentencia de iteración condicional: 
+    \begin{adjustwidth}{1cm}{0cm}
+        $<$SENT$>$ $\rightarrow$ MIENTRAS ''condición'' HAZ $<$SENTS$>$ \\
+        $<$SENTS$>$ $\rightarrow$ $<$SENTS$><$SENT$>$ \\
+        $<$SENTS$>$ $\rightarrow$ $<$SENT$>$ \\
+        $<$SENT$>$ $\rightarrow$ ''operación''
+    \end{adjustwidth}
+    Demuestra con al menos 2 casos de árboles de derivación que la sentencia MIENTRAS es ambigua para la cadena proporcionada. 
+    \begin{adjustwidth}{1cm}{0cm}
+        MIENTRAS ''condición'' HAZ \\
+        ''operación'' \\
+        MIENTRAS ''condición'' HAZ \\
+        ''operación'' \\
+        ''operación''
+    \end{adjustwidth}
+    Resuelve la ambigüedad agregando los símbolos constantes para delimitadores de bloque INICIO y FIN en las reglas que corresponda y demuestra la cadena resultante para cada significado que se obtuvo en las derivaciones ambiguas. \\
+    \solution Ambigüedad 1:
+    \begin{center} {\small
+        \begin{forest} 
+            [$<$SENT$>$ [MIENTRAS] [''condición''] [HAZ]
+                [$<$SENTS$>$ 
+                    [$<$SENTS$>$ 
+                        [$<$SENT$>$ [''operación''] 
+                        ]
+                    ]
+                    [$<$SENT$>$ [MIENTRAS] [''condición''] [HAZ] 
+                        [$<$SENTS$>$ 
+                            [$<$SENTS$>$ 
+                                [$<$SENT$>$ [''operación'']
+                                ]
+                            ] 
+                            [$<$SENT$>$ [''operación'']
+                            ]
+                        ]  
+                    ]
+                ]
+            ]
+        \end{forest} }
+    \end{center}
+    
+    Ambigüedad 2:
+    \begin{center} {\small
+        \begin{forest} 
+            [$<$SENT$>$ [MIENTRAS] [''condición''] [HAZ]
+                [$<$SENTS$>$
+                    [$<$SENTS$>$
+                        [$<$SENTS$>$
+                            [$<$SENT$>$ [''operación'']]
+                        ]
+                        [$<$SENT$>$ [MIENTRAS] [''condición''] [HAZ]
+                            [$<$SENTS$>$ 
+                                [$<$SENT$>$ [''operación'']
+                                ]
+                            ]
+                        ]
+                    ]
+                    [$<$SENT$>$ [''operación'']
+                    ]
+                ]
+            ]
+        \end{forest} }
+    \end{center}
+
+    Como observamos, la ambigüedad se produce en la última instrucción ''operación'', ya que puede pertenecer a la primera sentencia MIENTRAS (ambigüedad 2) o puede pertenecer a la segunda (ambigüedad 1). Para solucionar esto, debemos modificar la primera regla de la gramática correspondiente con un delimitador, de tal forma que la gramática queda como
+    \begin{adjustwidth}{1cm}{0cm}
+        $<$SENT$>$ $\rightarrow$ MIENTRAS ''condición'' HAZ $<$SENTS$>$ FMIENTRAS\\
+        $<$SENTS$>$ $\rightarrow$ $<$SENTS$><$SENT$>$ \\
+        $<$SENTS$>$ $\rightarrow$ $<$SENT$>$ \\
+        $<$SENT$>$ $\rightarrow$ ''operación''.
+    \end{adjustwidth}
+    
+    Así, los árboles de derivación quedan de la siguiente forma... \\
+    Ambigüedad 1:
+    \begin{center} {\small
+        \begin{forest} 
+        [$<$SENT$>$ [MIENTRAS] [''condición''] [HAZ]
+            [$<$SENTS$>$ 
+                [$<$SENTS$>$ 
+                    [$<$SENT$>$ [''operación''] 
+                    ]
+                ] 
+                [$<$SENT$>$ [MIENTRAS] [''condición''] [HAZ] 
+                    [$<$SENTS$>$ 
+                        [$<$SENTS$>$ 
+                            [$<$SENT$>$ [''operación'']
+                            ]
+                        ] 
+                        [$<$SENT$>$ [''operación'']
+                        ]
+                    ] [FMIENTRAS]
+                ]
+            ] [FMIENTRAS] 
+        ]
+        \end{forest} }
+    \end{center} \newpage
+    
+    Ambigüedad 2:
+    \begin{center} {\small
+        \begin{forest} 
+            [$<$SENT$>$ [MIENTRAS] [''condición''] [HAZ]
+                [$<$SENTS$>$
+                    [$<$SENTS$>$
+                        [$<$SENTS$>$
+                            [$<$SENT$>$ [''operación'']]
+                        ]
+                        [$<$SENT$>$ [MIENTRAS] [''condición''] [HAZ]
+                            [$<$SENTS$>$ [$<$SENT$>$ [''operación'']]] [FMIENTRAS]
+                        ]
+                    ]
+                    [$<$SENT$>$ [''operación'']
+                    ]
+                ] [FMIENTRAS]
+            ]
+        \end{forest} }
+    \end{center}
+    
+    \item Diseña una Gramática Libre de Contexto para la combinación de paréntesis ( ), corchetes [ ] y llaves \{ \} bien balanceadas. Transforma la gramática obtenida a la Forma Normal de Chomsky. \\
+    \solution La gramática propuesta es la siguiente:
+    \begin{align*}
+        S &\rightarrow SS \\
+        S &\rightarrow (S) \\
+        S &\rightarrow (\phantom{.}) \\
+        S &\rightarrow [S] \\
+        S &\rightarrow [\phantom{.}] \\
+        S &\rightarrow \{S\} \\
+        S &\rightarrow \{\phantom{.}\}
+    \end{align*}
+    En la Forma Normal de Chomsky:
+    \begin{equation*}
+        \begin{split}
+            S &\rightarrow SS \\
+            S &\rightarrow P_LS_1 \\
+            S_1 &\rightarrow SP_R \\
+            S &\rightarrow P_LP_R \\
+            S &\rightarrow L_1S_2 \\
+            S_2 &\rightarrow SL_R \\
+            S &\rightarrow L_LL_R \\
+            S &\rightarrow C_LS_3 \\
+            S_3 &\rightarrow SC_R \\
+            S &\rightarrow C_LC_R
+        \end{split} \qquad
+        \begin{split}
+            P_L &\rightarrow ( \\
+            P_R &\rightarrow \phantom{.} ) \\
+            L_L &\rightarrow \{ \\
+            L_R &\rightarrow \phantom{.}\} \\
+            C_L &\rightarrow [ \\
+            C_R &\rightarrow \phantom{.}] \\
+        \end{split}     
+    \end{equation*}
+    
+    \item La siguiente gramática genera el lenguaje en $\{0,1\}^*$ de la expresión regular $0^*1(0+1)^*$. Convierte la gramática a la Forma Normal de Chomsky.
+    \begin{gather*}
+        \quad S \rightarrow A1B \qquad A \rightarrow 0A \qquad A \rightarrow \varepsilon \qquad B \rightarrow 0B \qquad B \rightarrow 1B \qquad B \rightarrow \varepsilon
+    \end{gather*}
+    \solution La gramática en la Forma Normal de Chomsky queda de la siguiente manera:
+    \begin{equation*}
+        \begin{split}
+            S &\rightarrow AS_1 \\
+            S_1 &\rightarrow OB \\
+            S &\rightarrow AO \\
+            S &\rightarrow OB \\
+            A &\rightarrow ZA \\
+            B &\rightarrow ZB \\
+            B &\rightarrow OB
+        \end{split} \qquad  
+        \begin{split}
+            S &\rightarrow 1 \\
+            O &\rightarrow 1 \\
+            Z &\rightarrow 0 \\
+            A &\rightarrow 0 \\
+            B &\rightarrow 0 \\
+            B &\rightarrow 1
+        \end{split}
+    \end{equation*}
+
+    \begin{enumerate}
+        \item Modifica la gramática para eliminar las reglas que producen palabra vacía. \\
+        \solution La gramática modificada queda como sigue:
+        \begin{align*}
+            S &\rightarrow A1B \\
+            S &\rightarrow A1 \\
+            S &\rightarrow 1B \\
+            S &\rightarrow 1 \\
+            A &\rightarrow 0A \\
+            A &\rightarrow 0 \\
+            B &\rightarrow 0B \\
+            B &\rightarrow 1B \\
+            B &\rightarrow 0 \\
+            B &\rightarrow 1
+        \end{align*}
+        
+        \item Genera el autómata de pila LL y su tabla de previsión de 1 carácter. \\
+        \solution Las transiciones del autómata de pila quedan como sigue:
+        \begin{enumerate}[label=\arabic*.-, leftmargin=15mm]
+            \item $\big((p,\varepsilon,\varepsilon),(q,S)\big)$
+            \item $\big((q,\varepsilon,S),(q,A1B)\big)$
+            \item $\big((q,\varepsilon,A),(q,0A)\big)$
+            \item $\big((q,\varepsilon,A),(q,\varepsilon)\big)$
+            \item $\big((q,\varepsilon,B),(q,0B)\big)$
+            \item $\big((q,\varepsilon,B),(q,1B)\big)$
+            \item $\big((q,\varepsilon,B),(q,\varepsilon)\big)$
+            \item $\big((q,0,0),(q,\varepsilon)\big)$
+            \item $\big((q,1,1),(q,\varepsilon)\big),$ 
+        \end{enumerate}
+
+        con la siguiente tabla de previsión:
+        \begin{center}
+            \begin{tabular}{c|c|c|c}
+                    & 1 & 0 & $\varepsilon$ \\ 
+                \hline 
+                $S$ & $A1B$ & $A1B$ &   \\ 
+                \hline 
+                $A$ & $\varepsilon$ & $0A$ & $\varepsilon$ \\ 
+                \hline 
+                $B$ & $1B$ & $0B$ & $\varepsilon$ \\ 
+                \hline 
+            \end{tabular} 
+        \end{center}        \newpage
+        
+        \item Genera el autómata de pila LR. \\
+        \solution El autómata tiene las siguientes transiciones:
+        \begin{enumerate}[label=\arabic*.-, leftmargin=15mm]
+            \item $\big((i,\varepsilon,\varepsilon),(p,\#)\big)$
+            \item $\big((p,1,\varepsilon),(p,1)\big)$
+            \item $\big((p,0,\varepsilon),(p,0)\big)$
+            \item $\big((q,\varepsilon,B1A),(p,S)\big)$
+            \item $\big((q,\varepsilon,A0),(p,A)\big)$
+            \item $\big((q,\varepsilon,\varepsilon),(p,A)\big)$
+            \item $\big((q,\varepsilon,B0),(p,B)\big)$
+            \item $\big((q,\varepsilon,B1),(p,B)\big)$
+            \item $\big((q,\varepsilon,\varepsilon),(p,B)\big)$
+            \item $\big((p,\varepsilon,S),(q,\varepsilon)\big)$
+            \item $\big((q,\varepsilon,\#),(f,\varepsilon)\big)$
+        \end{enumerate}
+        
+        \item Para cada autómata generado haz la traza para la cadena “0010101”. \\
+        \solution Para el autómata LL se tiene la siguiente traza:
+        \begin{center}
+            \begin{tabular}{c|c|c}
+                \hline 
+                Por leer & Pila & Transición aplicada \\ 
+                \hline 
+                0010101 & $\varepsilon$ & - \\ 
+                \hline 
+                0010101 & $S$ & 1 \\ 
+                \hline
+                0010101 & $A1B$ & 2 \\ 
+                \hline 
+                0010101 & $0A1B$ & 3 \\ 
+                \hline 
+                010101 & $A1B$ & 8 \\ 
+                \hline
+                010101 & $0A1B$ & 3 \\ 
+                \hline
+                10101 & $A1B$ & 8 \\ 
+                \hline
+                10101 & $1B$ & 4 \\ 
+                \hline
+                0101 & $B$ & 9 \\ 
+                \hline
+                0101 & $0B$ & 5 \\ 
+                \hline
+                101 & $B$ & 8 \\ 
+                \hline
+                101 & $1B$ & 6 \\ 
+                \hline
+                01 & $B$ & 9 \\ 
+                \hline
+                01 & $0B$ & 5 \\ 
+                \hline
+                1 & $B$ & 8 \\ 
+                \hline
+                1 & $1B$ & 6 \\ 
+                \hline
+                $\varepsilon$ & $B$ & 9 \\ 
+                \hline
+                $\varepsilon$ & $\varepsilon$ & 7 \\ 
+                \hline
+            \end{tabular} 
+        \end{center} \newpage
+        
+        Para el autómata LR:
+        \begin{center}
+            \begin{tabular}{c|c|c}
+                \hline 
+                Por leer & Pila & Transición aplicada \\ 
+                \hline 
+                0010101 & $\varepsilon$ & - \\ 
+                \hline 
+                0010101 & $\#$ & 1 \\ 
+                \hline
+                010101 & $0\#$ & 3 \\ 
+                \hline
+                10101 & $00\#$ & 3 \\ 
+                \hline
+                10101 & $A00\#$ & 6 \\ 
+                \hline
+                10101 & $A0\#$ & 5 \\ 
+                \hline
+                10101 & $A\#$ & 5 \\ 
+                \hline
+                0101 & $1A\#$ & 2 \\ 
+                \hline
+                101 & $01A\#$ & 3 \\ 
+                \hline
+                01 & $101A\#$ & 2 \\ 
+                \hline
+                1 & $0101A\#$ & 3 \\ 
+                \hline
+                $\varepsilon$ & $10101A\#$ & 2 \\ 
+                \hline
+                $\varepsilon$ & $B10101A\#$ & 9 \\ 
+                \hline
+                $\varepsilon$ & $B0101A\#$ & 8 \\ 
+                \hline
+                $\varepsilon$ & $B101A\#$ & 7 \\ 
+                \hline
+                $\varepsilon$ & $B01A\#$ & 8 \\ 
+                \hline
+                $\varepsilon$ & $B1A\#$ & 7 \\ 
+                \hline
+                $\varepsilon$ & $S\#$ & 4 \\ 
+                \hline
+                $\varepsilon$ & $\#$ & 10 \\ 
+                \hline
+                $\varepsilon$ & $\varepsilon$ & 11 \\ 
+                \hline
+            \end{tabular} 
+        \end{center} \vspace{0.3cm}
+        
+        \item Construye el árbol de derivación a partir de cada una de las trazas. \\
+        \solution El árbol queda como sigue:
+        \begin{center}
+            \begin{forest}
+                [$S$
+                    [$A$ [0]
+                        [$A$ [0]
+                            [$A$ [$\varepsilon$]
+                            ]
+                        ]
+                    ] [1]
+                    [$B$ [0]
+                        [$B$ [1]
+                            [$B$ [0]
+                                [$B$ [1]
+                                    [$B$ [$\varepsilon$]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            \end{forest}
+        \end{center}
+    \end{enumerate}
+\end{enumerate}
+
+\end{document}
