@@ -44,7 +44,7 @@ char *getnom(char *src, char *exten){
 int main(int argc, char **argv){
     int i, state, err = FALSE, line = 1, linestr;
     char c, ulex[MAXLEN];
-    FILE *fsrc = fopen(argv[1],"r"), *flex, *fsim, *flin;
+    FILE *fsrc = fopen(argv[1],"r"), *flex, *fsim;
 
     if(!fsrc){
         printf("\nNo file %s was found.\n\n",argv[1]);
@@ -53,7 +53,6 @@ int main(int argc, char **argv){
 
     flex = fopen(getnom(argv[1],".lex"),"w");
     fsim = fopen(getnom(argv[1],".sim"),"w");
-    flin = fopen(getnom(argv[1],".lin"),"w");
     c = fgetc(fsrc);
     
     while(c != EOF){
@@ -109,7 +108,6 @@ int main(int argc, char **argv){
                 }
                 else{
                     fprintf(flex,"[val]\n");
-                    fprintf(flin,"%d\n",line);
                     if(!search(sim.VAL,ulex)){
                         sim.VAL[sim.valcont] = strdup(ulex);
                         sim.valcont++;
@@ -124,10 +122,8 @@ int main(int argc, char **argv){
                 } while(isalnum(c) && i < 15);
                 ulex[i] = 0;
                 
-                if(search(keywords,ulex)){                           // keyword
+                if(search(keywords,ulex))                           // keyword
                     fprintf(flex,"%s\n",ulex);
-                    fprintf(flin,"%d\n",line);
-                }
                 else if(isalnum(c) && i == 15){
                     while(!is_blank(c) && !isoperator(c)){
                         ulex[i] = c;
@@ -155,7 +151,6 @@ int main(int argc, char **argv){
                 }
                 else{
                     fprintf(flex,"[id]\n");
-                    fprintf(flin,"%d\n",line);
                     if(!search(sim.IDS,ulex)){
                         sim.IDS[sim.idscont] = strdup(ulex);
                         sim.idscont++;
@@ -192,7 +187,6 @@ int main(int argc, char **argv){
                 }
                 else{
                     fprintf(flex,"[txt]\n");
-                    fprintf(flin,"%d\n",linestr);
                     if(!search(sim.TXT,ulex)){
                         sim.TXT[sim.txtcont] = strdup(ulex);
                         sim.txtcont++;
@@ -215,14 +209,12 @@ int main(int argc, char **argv){
             
             case 6:
                 fprintf(flex,"[op_ar]\n");
-                fprintf(flin,"%d\n",line);
                 c = fgetc(fsrc);
                     
                 break;
             
             case 7:
                 fprintf(flex,"[op_rel]\n");
-                fprintf(flin,"%d\n",line);
                 c = fgetc(fsrc);
                 
                 break;
@@ -231,13 +223,10 @@ int main(int argc, char **argv){
                 c = fgetc(fsrc);
                 if(c == '='){
                     fprintf(flex,"[op_rel]\n");
-                    fprintf(flin,"%d\n",line);
                     c = fgetc(fsrc);
                 }
-                else{
+                else
                    fprintf(flex,"=\n");
-                   fprintf(flin,"%d\n",line);
-                }
                     
                 break;
             
@@ -253,10 +242,8 @@ int main(int argc, char **argv){
         }
     }
     fprintf(flex,"$\n");
-    fprintf(flin,"%d\n",line-1);
     
     fclose(fsrc);    
-    fclose(flin);
     fclose(flex);
 
     fprintf(fsim,"IDS\n");
