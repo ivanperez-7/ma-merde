@@ -1,0 +1,39 @@
+Registro de ventas y comisiones.
+
+Ingrese las ventas de la semana 3 de Juan Camaney : Ingrese las ventas de la semana 4 de Juan Camaney : 
+Ingrese las ventas de la semana 3 de Pedro P ramo : Ingrese las ventas de la semana 4 de Pedro P ramo : 
+Ingrese las ventas de la semana 3 de Sof¡a Loren : Ingrese las ventas de la semana 4 de Sof¡a Loren : 
+Ingrese las ventas de la semana 3 de Isela Blanco : Ingrese las ventas de la semana 4 de Isela Blanco : 
+Ingrese las ventas de la semana 3 de Luis Conde : Ingrese las ventas de la semana 4 de Luis Conde : 
+Ingrese las ventas de la semana 3 de Pedro Junior : Ingrese las ventas de la semana 4 de Pedro Junior : 
+Ingrese las ventas de la semana 3 de Pablo Coronel : Ingrese las ventas de la semana 4 de Pablo Coronel : 
+Ingrese las ventas de la semana 3 de Jos‚ Mar¡a : Ingrese las ventas de la semana 4 de Jos‚ Mar¡a : 
+Ingrese las ventas de la semana 3 de Juan Melgar : Ingrese las ventas de la semana 4 de Juan Melgar : 
+Ingrese las ventas de la semana 3 de Carolina Monaco : Ingrese las ventas de la semana 4 de Carolina Monaco : 
+Ingrese las ventas de la semana 3 de Samanta P‚rez : Ingrese las ventas de la semana 4 de Samanta P‚rez : 
+Ingrese las ventas de la semana 3 de Tom s Aquino : Ingrese las ventas de la semana 4 de Tom s Aquino : 
+Ingrese las ventas de la semana 3 de Juan Escutia : Ingrese las ventas de la semana 4 de Juan Escutia : 
+Ingrese las ventas de la semana 3 de Vicente Ju rez : Ingrese las ventas de la semana 4 de Vicente Ju rez : 
+Ingrese las ventas de la semana 3 de Stefany Zald¡var : Ingrese las ventas de la semana 4 de Stefany Zald¡var : 
+Ingrese las ventas de la semana 3 de Andr‚s Gi¤aq : Ingrese las ventas de la semana 4 de Andr‚s Gi¤aq : 
+
+Clave   Nombre vendedor               VSem1     VSem2     VSem3     VSem4     VTotales  Comision
+=================================================================================================
+7777    Juan Camaney                  6800.00   7500.00   678.00    678.00    15656.00  1347.80
+2777    Pedro P ramo                  8800.00   9500.00   678.00    678.00    19656.00  1707.80
+1179    Sof¡a Loren                   8900.00   7300.00   678.00    678.00    17556.00  1541.80
+3333    Isela Blanco                  7800.00   8500.00   678.00    678.00    17656.00  1527.80
+6430    Luis Conde                    6008.00   4005.00   678.00    678.00    11369.00  989.00
+8884    Pedro Junior                  8800.00   9001.00   678.00    678.00    19157.00  1667.88
+1101    Pablo Coronel                 5800.00   7500.00   678.00    678.00    14656.00  1247.80
+7430    Jos‚ Mar¡a                    5800.00   6200.00   678.00    678.00    13356.00  1143.80
+4321    Juan Melgar                   7800.00   7500.00   678.00    678.00    16656.00  1447.80
+4345    Carolina Monaco               8800.00   9500.00   678.00    678.00    19656.00  1707.80
+1401    Samanta P‚rez                 9800.00   1750.00   678.00    678.00    12906.00  1187.80
+8406    Tom s Aquino                  3368.00   5578.00   678.00    678.00    10302.00  850.84
+4341    Juan Escutia                  5800.00   9500.00   678.00    678.00    16656.00  1407.80
+4545    Vicente Ju rez                7800.00   1500.00   678.00    678.00    10656.00  967.80
+1901    Stefany Zald¡var              7800.00   5750.00   678.00    678.00    14906.00  1307.80
+9406    Andr‚s Gi¤aq                  8368.00   4578.00   678.00    678.00    14302.00  1270.84
+
+Total de Comisiones : 21322.16
