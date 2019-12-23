@@ -1,0 +1,46 @@
+\documentclass[12pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper, margin = 1in]{geometry}
+\usepackage{amsmath,amsthm,amssymb,mathtools}
+
+\author{
+Avilés Domínguez Jorge Emmanuel \\
+Leyva Martínez Carlos Alberto \\ 
+Pérez Maldonado Iván Alberto \\
+Toquiantzi Hoffmann Tomás Daniel \\
+Zapata Vargas Karina Montserrat \\
+}
+\title{Métodos con eigenvectores para la recuperación de información web}
+
+\begin{document}
+
+\maketitle
+
+\section{Introducción}
+En este documento se discuten los temas desarrollados en el artículo \textit{A Survey of Eigenvector Methods for Web Information Retrieval}, de Langville, A. y Meyer, C., artículo que habla sobre tres métodos modernos de recuperación de información web basados en el álgebra lineal, nombrados HITS (Hypertext Induced Topic Search, desarrollado en 1997), PageRank (desarrollado en 1999) y SALSA (desarrollado en el año 2000). Desde años anteriores, ya se tenían métodos de recuperación de información como el Latent Semantic Indexing (LSI), que trabajaban con pequeñas colecciones de documentos. Se volvieron famosos gracias a su habilidad de manejar efectivamente búsquedas generalmente problemáticas que involucraban polisemia y sinónimos; sin embargo, una colección como la World Wide Web cae dramáticamente fuera del alcance del LSI y de otros métodos de recuperación de información debido a varias grandes razones. \par
+Los tres métodos mencionados fueron diseñados con el fin de poder trabajar con esa forma, enorme tamaño y peculiaridades de la World Wide Web. Como veremos en este papel, cada método tiene su propia sustentación en el álgebra lineal, particularmente, en el cálculo y uso de eigenvectores y eigenvalores de una matriz. \par
+
+\section{HITS}
+A continuación se expande el grafo alrededor del subconjunto de nodos en $N$ agregando nodos que apuntan a nodos en $N$ o son apuntados por $N$. Esta expansión permite que se hagan asociaciones semánticas latentes, pero el número máximo de nodos de enlace para agregar un nodo en particular en $N$ es fijo. El proceso de construir el gráfico de vecindad está fuertemente relacionado con la creación de conjuntos de niveles en el filtrado de información, lo que reduce una matriz dispersa a una mucho más pequeña y relevante para consultas. \par
+Una vez que se construye el conjunto $N$, la matriz de adyacencia $L$ correspondiente a los nodos en $N$ se forma. El orden de $L$ es mucho menor que el número total de nodos/documentos en la red. Por lo tanto, la autoridad de cómputo y los puntajes del centro utilizan los vectores propios de $L^TL$ y $LL^T$ tienen un costo pequeño en comparación con la autoridad de cómputo y los puntajes centrales cuando se colocan todos los documentos en la Web. 
+
+\section{PageRank}
+Los motores de búsqueda cuentan con rastreadores muy potentes que navegan y analizan los sitios web y crean una base de datos con la información recolectada, lo indexan y catalogan, los valores del PageRank se asignan antes de que se haga una consulta de acuerdo a su importancia, para que en el momento de la consulta se presente una lista clasificada de páginas relacionadas con los términos de la consulta y así el usuario tenga un resultado instantáneamente. \par
+La clasificación del PageRank se basa en la cantidad de enlaces de páginas a otras páginas. La idea es que los enlaces de páginas más importantes tengan más peso que los enlaces de otras páginas menos importantes, se define como el rango $r(P)$ de una página $P$ como:
+\begin{gather*}
+    r(P) = \sum_{Q\in \mathcal{B}_P} \frac{r(Q)}{|Q|}, \quad \text{      donde      } \quad
+    \begin{split}
+        \mathcal{{B}_P} &= \text{todas las páginas que apuntan a } P, \\ 
+        |Q| &= \text{número de links salientes de } Q.
+    \end{split}
+\end{gather*}
+
+\section{SALSA}
+cscssccs
+
+\section{Conclusiones}
+Gracias por leer prof
+   
+\end{document}

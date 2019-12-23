@@ -1,0 +1,349 @@
+\documentclass[11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[letterpaper, margin = 1in]{geometry}
+\usepackage{amsthm,amssymb,mathtools,xcolor}
+
+\newcommand{\solution}{\textcolor{blue}{\textbf{Solución. }}}
+
+\author{
+Avilés Domínguez Jorge Emmanuel \\
+Leyva Martínez Carlos Alberto \\
+Pérez Maldonado Iván Alberto \\
+Toquiantzi Hoffmann Tomás Daniel \\
+Zapata Vargas Karina Montserrat 
+}
+\title{Álgebra Lineal: ADA Escrita \#2}
+
+\begin{document}
+
+\maketitle
+
+\textbf{
+Instrucciones:
+\begin{enumerate}
+    \item Redacte claramente su procedimiento, argumente y justifique correctamente cada uno de sus pasos.
+    \item Debe hacer uso correcto de las definiciones, propiedades, teoremas.
+    \item Los reactivos se deben resolver aplicando los métodos estudiados en clase o que aparecen en las notas del curso.
+\end{enumerate}
+}
+
+\begin{enumerate}
+	\item Sea $V$ un espacio y sean $v_1,v_2$ y $v_3$ elementos de $V$. Pruebe que $\langle v_1,v_2,v_3 \rangle = \langle v_1,v_2 \rangle$ si y solamente si $v_3\in \langle v_1,v_2 \rangle$.
+	\begin{proof}
+		$\Rightarrow)$ P.D. $v_3\in \langle v_1,v_2 \rangle$. \\
+		Si $\langle v_1,v_2,v_3 \rangle = \langle v_1,v_2 \rangle$, entonces todo $x=av_1+bv_2+cv_3\in \langle v_1,v_2,v_3 \rangle$ se puede reescribir como algún $y=dv_1+ev_2\in \langle v_1,v_2 \rangle$. Nótese que si $c=0$, entonces $x = av_1 + bv_2$, por lo que no podemos concluir algo sobre $v_3$ al no aparecer en $x$ ni en $y$. Por esto, supóngase que $c\neq 0$. Entonces:
+		\begin{align*}
+				   x &= y \\
+	  av_1+bv_2+cv_3 &= dv_1+ev_2 && \text{sustituyendo}.\\
+				cv_3 &= dv_1-av_1+ev_2-bv_2  \\
+					 &= (d-a)v_1+(e-b)v_2 \\
+				 v_3 &= \left(\frac{d-a}{c}\right)v_1 + \left(\frac{e-b}{c}\right)v_2
+		\end{align*}
+		Por lo tanto, $v_3\in \langle v_1,v_2 \rangle$ al ser combinación lineal de $v_1$ y $v_2$.
+		
+		$\Leftarrow)$ P.D. $\langle v_1,v_2,v_3 \rangle = \langle v_1,v_2 \rangle$. \\
+		Si $v_3\in \langle v_1,v_2 \rangle$, entonces $v_3=av_1+bv_2$ para algunos $a,b\in \mathbb{R}$. Luego:
+		\begin{align*}
+				   \langle v_1,v_2,v_3 \rangle &= xv_1+yv_2+zv_3 && \text{para todo $x,y,z\in \mathbb{R}$}.\\
+											   &= xv_1+yv_2+z(av_1+bv_2) && \text{sustituyendo}.\\
+											   &= (az+x)v_1+(bz+y)v_2  \\
+											   &= \langle v_1,v_2 \rangle
+		\end{align*} 
+		$\therefore \langle v_1,v_2,v_3 \rangle = \langle v_1,v_2 \rangle \Leftrightarrow v_3\in \langle v_1,v_2 \rangle$.
+	\end{proof}
+
+	\item Sea $V$ un espacio vectorial y sea $\{v_1,v_2,v_3\}$ un conjunto de vectores linealmente independiente. 
+	\begin{enumerate}
+		\item Sea $w_1=v_1 + 2v_2 + 3v_3, w_2=2v_1 + 5v_2 + 6v_3$ y $w_3=3v_1 + 6v_2 + 10v_3$. Determine si $S=\{w_1,w_2,w_3\}$ es linealmente independiente o linealmente dependiente. Si $S$ es l.d. escriba de manera explícita al vector cero como una combinación lineal de $w_1,w_2,w_3$. \\
+		\solution Calculemos $aw_1 + bw_2 + cw_3 = 0$:
+		\begin{align*}
+				   aw_1 + bw_2 + cw_3 &= 0 \\
+				   a(v_1 + 2v_2 + 3v_3) + b(2v_1 + 5v_2 + 6v_3) + c(3v_1 + 6v_2 + 10v_3) &= 0 && \text{sustituyendo}.\\
+				   (a+2b+3c)v_1 + (2a+5b+6c)v_2 + (3a+6b+10c)v_3  &= 0
+		\end{align*} 
+		Como $\{v_1,v_2,v_3\}$ es linealmente independiente, obtenemos el sistema homogéneo
+		\begin{center}
+		    $\begin{cases}
+					a+2b+3c = 0 \\
+				   2a+5b+6c = 0 \\
+				   3a+6b+10c = 0
+		    \end{cases}$
+		\end{center}
+		
+		Resolviendo el sistema:
+		\begin{gather*}
+		    \begin{bmatrix*}[r]
+		        1 & 2 & 3 \\ 
+		        2 & 5 & 6 \\ 
+		        3 & 6 & 10
+		    \end{bmatrix*} \xrightarrow{R_{12}(-2)} 
+		    \begin{bmatrix*}[r]
+		        1 & 2 & 3 \\ 
+		        0 & 1 & 0 \\ 
+		        3 & 6 & 10
+		    \end{bmatrix*} \xrightarrow{R_{13}(-3)} 
+		    \begin{bmatrix*}[r]
+		        1 & 2 & 3 \\ 
+		        0 & 1 & 0 \\ 
+		        0 & 0 & 1
+            \end{bmatrix*}
+		\end{gather*}
+		
+		Luego, $(a,b,c) = (-2b-3c,0,0)=(0,0,0)$. \\
+		Por lo tanto, $S$ es l.i. al no existir escalares distintos de cero tales que $aw_1 + bw_2 + cw_3 = 0$.
+		
+		\item Sea $w_1=v_1 + v_2 + v_3, w_2=-5v_1 + v_2$ y $w_3=-7v_1 + 5v_2 + 3v_3$. Determine si $S=\{w_1,w_2,w_3\}$ es linealmente independiente o linealmente dependiente. Si $S$ es l.d. escriba de manera explícita al vector cero como una combinación lineal de $w_1,w_2,w_3$. \\
+		\solution Calculemos $aw_1 + bw_2 + cw_3 = 0$:
+		\begin{align*}
+				   aw_1 + bw_2 + cw_3 &= 0 \\
+				   a(v_1 + v_2 + v_3) + b(-5v_1 + v_2) + c(-7v_1 + 5v_2 + 3v_3) &= 0 && \text{sustituyendo}.\\
+				   (a-5b-7c)v_1 + (a+b+5c)v_2 + (a+3c)v_3  &= 0
+		\end{align*} 
+		Como $\{v_1,v_2,v_3\}$ es linealmente independiente, obtenemos el sistema homogéneo
+		\begin{center} 
+		    $\begin{cases}
+				  a-5b-7c = 0 \\
+				   a+b+5c = 0 \\
+				     a+3c = 0
+		    \end{cases}$
+		\end{center}
+		
+		Resolviendo el sistema:
+		\begin{gather*}
+		    \begin{bmatrix*}[r]
+		        1 & -5 & -7 \\ 
+		        1 & 1 & 5 \\ 
+		        1 & 0 & 3
+		    \end{bmatrix*} \xrightarrow{R_{12}(-1)} 
+		    \begin{bmatrix*}[r]
+		        1 & -5 & -7 \\ 
+		        0 & 6 & 12 \\ 
+		        1 & 0 & 3
+		    \end{bmatrix*} \xrightarrow{R_{13}(-1)} 
+		    \begin{bmatrix*}[r]
+		        1 & -5 & -7 \\ 
+		        0 & 6 & 12 \\ 
+		        0 & 5 & 10
+            \end{bmatrix*}  \xrightarrow{R_{23}(-\frac{5}{6})} 
+		    \begin{bmatrix*}[r]
+		        1 & -5 & -7 \\ 
+		        0 & 6 & 12 \\ 
+		        0 & 0 & 0
+		    \end{bmatrix*} \\ \xrightarrow{R_2(\frac{1}{6})} 
+		    \begin{bmatrix*}[r]
+		        1 & -5 & -7 \\ 
+		        0 & 1 & 2 \\ 
+		        0 & 0 & 0
+            \end{bmatrix*} \xrightarrow{R_{21}(5)} 
+		    \begin{bmatrix*}[r]
+		        1 & 0 & 3 \\ 
+		        0 & 1 & 2 \\ 
+		        0 & 0 & 0
+            \end{bmatrix*}
+		\end{gather*}
+		
+		Luego, $(a,b,c)=(-3c,-2c,c)$. Entonces, $0=c(-3w_1-2w_2+w_3)$ para cualquier $c \in \mathbb{R}$. \\
+		Por lo tanto, $S$ es l.d. ya que existen escalares no todos cero tales que $aw_1 + bw_2 + cw_3 = 0$.
+	\end{enumerate}
+
+	\item Considere el siguiente subespacio $W = \left\{
+	\begin{bmatrix*}[r]
+	    a & b \\ 
+	    c & d
+	\end{bmatrix*} \in \mathbb{R}^{2\times 2}:a+d=0 \right\}$ de $\mathbb{R}^{2\times 2}$.
+	\begin{enumerate}
+		\item Halle una base $\mathcal{B}$ para $W$ y calcule $\dim W$. \\
+		\solution Como $a+d=0$, entonces $a=-d$. Sea $A = 
+		\begin{bmatrix*}[r]
+		    -d & b \\
+	    	c & d
+		\end{bmatrix*} \in W$:
+		\begin{center}
+		    $\begin{bmatrix*}[r]
+		        -d & b \\ 
+		        c & d
+		    \end{bmatrix*} = b
+		    \begin{bmatrix*}[r]
+		        0 & 1 \\ 
+		        0 & 0
+		    \end{bmatrix*} + c
+		    \begin{bmatrix*}[r]
+		        0 & 0 \\ 
+	        	1 & 0
+		    \end{bmatrix*} + d
+		    \begin{bmatrix*}[r]
+		        -1 & 0 \\ 
+		         0 & 1
+	    	\end{bmatrix*}$
+		\end{center}
+		
+		De esta forma, vemos que $W = \left\langle 
+		\begin{bmatrix*}[r]
+		    0 & 1 \\ 
+		    0 & 0
+		\end{bmatrix*},
+		\begin{bmatrix*}[r]
+		    0 & 0 \\ 
+		    1 & 0
+		\end{bmatrix*}, 
+		\begin{bmatrix*}[r]
+		-   1 & 0 \\ 
+		    0 & 1
+		\end{bmatrix*} \right\rangle = \left\langle A_1,A_2,A_3 \right\rangle$. \par
+		
+		Para ver que el conjunto es l.i. resolvamos $xA_1+yA_2+zA_3 = 0$:
+		\begin{center}
+		    $x\begin{bmatrix*}[r]
+		        0 & 1 \\ 
+		        0 & 0
+		    \end{bmatrix*} + y
+		    \begin{bmatrix*}[r]
+		        0 & 0 \\ 
+		        1 & 0
+		    \end{bmatrix*} +z
+		    \begin{bmatrix*}[r]
+		        -1 & 0 \\ 
+		        0 & 1
+		    \end{bmatrix*} = 
+		    \begin{bmatrix*}[r]
+		        -z & x \\ 
+		        y & z
+		    \end{bmatrix*} =
+		    \begin{bmatrix*}[r]
+		        0 & 0 \\ 
+		        0 & 0
+		    \end{bmatrix*}$
+		\end{center}
+		
+		Por igualdad de matrices, observamos que $(x,y,z)=(0,0,0)$. \par
+		Por lo tanto, $\mathcal{B}= \left\{
+		\begin{bmatrix*}[r]
+		    0 & 1 \\ 
+		    0 & 0
+		\end{bmatrix*},
+		\begin{bmatrix*}[r]
+		    0 & 0 \\
+		    1 & 0
+		\end{bmatrix*},
+		\begin{bmatrix*}[r]
+		    -1 & 0 \\
+		    0 & 1
+		 \end{bmatrix*} \right\}$ es una base para $W$. Luego, $\dim W = 3$.
+		
+		\item Calcule el vector de coordenadas de $A=
+		\begin{bmatrix*}[r]
+		    2 & 3 \\ 
+		    4 & -2
+		\end{bmatrix*}$ con respecto a la base $\mathcal{B}$. \par
+		\solution Hallemos $a,b,c$ tal que $aA_1+bA_2+cA_3=A$:
+		\begin{center}
+		    $a\begin{bmatrix*}[r]
+		        0 & 1 \\ 
+		        0 & 0
+		    \end{bmatrix*} +b
+		    \begin{bmatrix*}[r]
+		        0 & 0 \\ 
+		        1 & 0
+		    \end{bmatrix*} +c
+		    \begin{bmatrix*}[r]
+		        -1 & 0 \\ 
+	    	    0 & 1
+		    \end{bmatrix*} = 
+		    \begin{bmatrix*}[r]
+		        -c & a \\ 
+		         b & c
+		    \end{bmatrix*} =
+		    \begin{bmatrix*}[r]
+		        2 & 3 \\ 
+		        4 & -2
+		    \end{bmatrix*}$
+		\end{center}
+
+		Por igualdad de matrices, podemos observar que $(a,b,c)=(3,4,-2)$. \\
+		Por lo tanto, $[A]_{\mathcal{B}} = \begin{bmatrix*}[r] 3 \\ 4 \\ -2\end{bmatrix*}$.	
+	\end{enumerate}
+
+	\item Sean $V$ un espacio vectorial y $T:V\rightarrow V$ una transformación lineal tal que $T(2v_1-3v_2)=5v_1+3v_2$ y $T(-3v_1+5v_2) = 4v_1+3v_2$. Escriba $T(v_1)$ y $T(v_2)$ en términos de $v_1$ y $v_2$. \\
+	\solution En la primera igualdad:
+	\begin{align*}
+		T(2v_1-3v_2) &= 2T(v_1)-3T(v_2) \\
+					 &= 5v_1+3v_2
+	\end{align*}
+	En la segunda igualdad:
+	\begin{align*}
+		T(-3v_1+5v_2) &= -3T(v_1)+5T(v_2) \\
+					  &= 4v_1+3v_2
+	\end{align*}
+	Obtenemos el sistema
+	\begin{center}
+		$\begin{cases}
+					2T(v_1)-3T(v_2) = 5v_1+3v_2 \\
+					-3T(v_1)+5T(v_2)= 4v_1+3v_2
+		\end{cases} \rightarrow
+		\begin{bmatrix*}[r] 
+		    2 & -3 \\
+		    -3 & 5
+		\end{bmatrix*}\begin{bmatrix} T(v_1) \\ T(v_2) \end{bmatrix} = \begin{bmatrix} 5v_1+3v_2 \\ 4v_1+3v_2 \end{bmatrix}$
+	\end{center}
+		
+	Aplicando la regla de Cramer:
+	\begin{gather*}
+			T(v_1) = \frac{\begin{vmatrix*}[r] 	5v_1+3v_2 & -3 \\ 4v_1+3v_2 & 5 \end{vmatrix*}}{\begin{vmatrix*}[r] 2 & -3 \\ -3 & 5 \end{vmatrix*}} = 37v_1 + 24v_2, \quad \quad \quad T(v_2) = \frac{\begin{vmatrix*}[r] 2 & 5v_1+3v_2 \\ -3 & 4v_1+3v_2 \end{vmatrix*}}{\begin{vmatrix*}[r] 2 & -3 \\ -3 & 5 \end{vmatrix*}} = 23v_1+15v_2.
+	\end{gather*}
+		
+	\item Sea $W$ el espacio vectorial real de todas las matrices simétricas de $2\times 2$. Defina una transformación lineal $T:W\rightarrow \mathbb{R}[t]_3$ mediante:
+	\begin{center}
+		$T\begin{bmatrix*}[r]a & b\\ b & c\end{bmatrix*} = (a-b) + (b-c)t + (c-a)t^2$.
+	\end{center}
+	Encuentre el rango y la nulidad de $T$. \\
+	\solution Primero hallemos una base para $\ker (T)$, es decir, encontremos todas las soluciones a la ecuación $T(A) = 0$. Siguiendo la definición de la transformación:
+	\begin{center}
+		$T\begin{bmatrix*}[r]a & b\\ b & c\end{bmatrix*} = (a-b) + (b-c)t + (c-a)t^2 = 0+0t+0t^2$.
+	\end{center}
+	Esto nos conduce al sistema de ecuaciones
+	\begin{center}
+	    $\begin{cases}
+		    a - b = 0 \\
+	    	b - c = 0 \\
+	    	c - a = 0
+	    \end{cases} \rightarrow 
+	    \begin{bmatrix*}[r]
+	         1 & -1 & 0 \\ 
+	         0 & 1 & -1 \\
+	        -1 & 0 & 1
+	    \end{bmatrix*} \begin{bmatrix*} a \\ b \\ c\end{bmatrix*} = \begin{bmatrix*}0 \\ 0 \\ 0\end{bmatrix*}$
+	\end{center}
+	
+	Resolviendo el sistema
+	\begin{gather*}
+		\begin{bmatrix*}[r]
+	    	1 & -1 & 0 \\ 
+		    0 & 1 & -1 \\
+		    -1 & 0 & 1
+		\end{bmatrix*} \xrightarrow{R_{21}(1)}
+		\begin{bmatrix*}[r]
+		    1 & 0 & -1 \\ 
+		    0 & 1 & -1 \\
+		    -1 & 0 & 1
+		\end{bmatrix*} \xrightarrow{R_{13}(1)}
+		\begin{bmatrix*}[r]
+		    1 & 0 & -1 \\ 
+		    0 & 1 & -1 \\
+		    0 & 0 & 0
+		\end{bmatrix*}
+	\end{gather*}
+	De la matriz, vemos que $a=b=c$, por lo que $\ker (T) = \left\{(c,c,c)\in \mathbb{R}^3:c\in \mathbb{R}\right\}=\langle (1,1,1) \rangle$. Como el vector $(1,1,1)$ es l.i. entonces $\mathcal{B}=\{(1,1,1)\}$ es una base para $\ker (T)$ y la nulidad de $T$ es 1. \\
+	Ahora calculemos una base para Im$(T)$. De la definición de la transformación, vemos que un polinomio genérico resultante de $T(A)$ es $(a-b) + (b-c)t + (c-a)t^2$. Reorganizando términos, tenemos
+	\begin{align*}
+		(a-b) + (b-c)t + (c-a)t^2 &= a-b+bt-ct+ct^2-at^2 \\
+								  &= (a-at^2) + (-b+bt) + (-ct+ct^2) \\
+								  &= a(1-t^2) + b(-1+t) + c(-t+t^2).
+	\end{align*}
+	Por lo tanto, Im$(T)=\left\{ a(1-t^2) + b(-1+t) + c(-t+t^2) \in \mathbb{R}[t]_3 : a,b,c\in \mathbb{R} \right\}=\langle 1-t^2,-1+t,-t+t^2 \rangle = \langle v_1,v_2,v_3 \rangle$. Sin embargo, es fácil verificar que $v_3=-(v_1+v_2)$. Como $v_3$ depende linealmente de $v_1$ y $v_2$, entonces Im$(T)= \langle 1-t^2,-1+t \rangle$. Para ver que el conjunto es l.i. resolvamos $a(1-t^2)+b(-1+t)=(a-b)+bt-at^2=0+0t+0t^2$. Por igualdad de polinomios, vemos que $a=b=0$, por lo que el conjunto $\mathcal{B}=\{ 1-t^2,-1+t \}$ es una base para Im$(T)$ y el rango de $T$ es 2.
+	
+\end{enumerate}
+
+\end{document}

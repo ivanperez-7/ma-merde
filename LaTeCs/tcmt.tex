@@ -1,0 +1,198 @@
+\documentclass[11pt]{article}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{tgpagella,mathtools,tikz,xcolor}
+
+\usetikzlibrary{automata, positioning, arrows}
+\tikzset{->, >=stealth', node distance=3cm, every state/.style={thick, fill=gray!10}, initial text= $ $}
+
+\newcommand{\solution}{\textcolor{blue}{\textbf{Solución. }}}
+
+\title{Teoría de la Computación, ADA \#7 \\ \textsc{Máquinas de Turing}}
+\author{Iván Alberto Pérez Maldonado}
+\date{9 de diciembre de 2019}
+
+\begin{document}
+
+\maketitle
+
+De manera individual, resolver los siguientes ejercicios:
+\begin{enumerate}
+    \item Diseñe una Máquina de Turing que:
+    \begin{enumerate}
+        \item Acepte las palabras en $\{ 0,1 \}^*$ que contengan el doble número de 0's que de 1's, no hay un orden específico de los números en la cadena. \\
+		\solution La Máquina de Turing propuesta detecta cada 1 en la cadena de entrada y va eliminando pares de 0's por cada 1 que se detecta. Al no quedar 1's, si se detecta un 0 en la cadena entonces ésta no es aceptada, de lo contrario, la cadena se acepta.
+        \begin{center} {\small
+            \begin{tikzpicture}[node distance=2.5cm]
+                \node [state, initial] (1) {$q_1$};
+                \node [state, above right of=1] (2) [above=-1cm] {$q_2$};
+                \node [state, right of=1] (3) [right=1cm] {$q_3$};
+                \node [state, right of=3] (4) {$q_4$};
+                \node [state, right of=4] (5) {$q_5$};
+                \node [state, above of=5] (6) [above=-1.25cm] {$q_6$};
+                \node [state, below right of=1] (7) [below=0.0cm] {$q_7$};
+                \node [state, right of=7] (8) [below=0.3cm]{$q_8$};
+                \node [state, right of=7] (h) [above=0.3cm] {$h$};
+                \path (1) edge[above left] node{$\sqcup/R$} (2)
+                      (2) edge[loop above, min distance=5mm] node[align=center]{$0/R$ \\ $*/R$} (2)
+                          edge[above] node{$1/*$} (3)
+                          edge[below left] node{$\sqcup/L$} (7)
+                      (3) edge[loop above, min distance=5mm] node[align=center]{$0/L$ \\ $*/L$} (3)
+                          edge[above] node{$\sqcup/R$} (4)
+                      (4) edge[loop above, min distance=5mm] node[align=center]{$1/R$ \\ $*/R$} (4)
+                          edge[loop below, min distance=5mm] node{$\sqcup/\sqcup$} (4)
+                          edge[above] node{$0/*$} (5)
+                      (5) edge[loop below, min distance=5mm] node{$\sqcup/\sqcup$} (5)
+                          edge[right] node{$0/*$} (6)
+                          edge[loop right, min distance=5mm] node[align=center]{$1/R$ \\ $*/R$} (5)
+                      (6) edge[bend right, bend right=23] node[above]{$\sqcup/R$} (2)
+                          edge[loop right, min distance=5mm] node[align=center]{$1/L$ \\ $*/L$} (6)
+                      (7) edge[loop left, min distance=5mm] node{$*/L$} (7)
+                          edge[bend right] node[above]{$0/0$} (8)
+                          edge[bend left] node[below]{$\sqcup/R$} (h)
+                      (8) edge[loop right, min distance=5mm] node{$0/0$} (8);
+            \end{tikzpicture} }
+        \end{center}
+
+        \item Decida las palabras en $\{ 0,1 \}^*$ que contengan el doble número de 0's que de 1's. \\
+        \solution La Máquina de Turing propuesta queda así, que es una modificación de la MT del inciso anterior.
+        \begin{center} {\small
+            \begin{tikzpicture}[node distance=2.5cm]
+                \node [state, initial] (1) {$q_1$};
+                \node [state, above right of=1] (2) [above=-1cm] {$q_2$};
+                \node [state, right of=1] (3) [right=1cm] {$q_3$};
+                \node [state, right of=3] (4) {$q_4$};
+                \node [state, right of=4] (5) {$q_5$};
+                \node [state, above of=5] (6) [above=-1.25cm] {$q_6$};
+                \node [state, below right of = 1] (7) [below=0.9cm] {$q_7$};
+                \node [state, right of=7] (8) {$q_8$};
+                \node [state, right of=7] (9) [above=1cm]{$q_9$};
+                \node [state, right of=8] (10) {$q_{10}$};
+                \node [state, right of=9] (11) {$q_{11}$};
+                \node [state, right of=11] (12) {$q_{12}$};
+                \node [state, right of=10] (h) {$h$};
+                \path (1) edge[above left] node{$\sqcup/R$} (2)
+                      (2) edge[loop above, min distance=5mm] node[align=center]{$0/R$ \\ $*/R$} (2)
+                          edge[above] node{$1/*$} (3)
+                          edge[below left] node{$\sqcup/\sqcup$} (7)
+                      (3) edge[loop above, min distance=5mm] node[align=center]{$0/L$ \\ $*/L$} (3)
+                          edge[above] node{$\sqcup/R$} (4)
+                      (4) edge[above] node{$0/*$} (5)
+                          edge[loop above, min distance=5mm] node[align=center]{$1/R$ \\ $*/R$} (4)
+                          edge[bend right=10] node[left]{$\sqcup/\sqcup$} (9)
+                      (5) edge[bend left] node[below]{$\sqcup/\sqcup$} (4)
+                          edge[right] node{$0/*$} (6)
+                          edge[loop right, min distance=5mm] node[align=center]{$1/R$ \\ $*/R$} (5)
+                      (6) edge[bend right, bend right=23] node[above]{$\sqcup/R$} (2)
+                          edge[loop right, min distance=5mm] node[align=center]{$1/L$ \\ $*/L$} (6)
+                      (7) edge[bend left] node[above left]{$\sqcup/L$} (8)
+                      (8) edge node[below]{$*/\sqcup$} (7)
+                          edge[left] node{$0/\sqcup$} (9)
+                          edge[above] node[below]{$\sqcup/R$} (10)
+                      (9) edge[bend left] node[below]{$\sqcup/L$} (11)
+                     (10) edge[below] node{$\sqcup/1$} (h)
+                     (11) edge[bend left] node[below]{$0,1,*/\sqcup$} (9)
+                          edge[below] node{$\sqcup/R$} (12)
+                     (12) edge[right] node{$\sqcup/0$} (h);
+            \end{tikzpicture} }   
+        \end{center}
+    \end{enumerate}
+    
+    \item Diseñe una Máquina de Turing que recibe la representación unaria de un número y obtiene el triple de ese número. El proceso inicia en el extremo izquierdo de la cinta y cada vez que se lea 1, lo reemplaza por un 0 y se desplaza al final de la cadena de entrada y agrega dos 0, que representan al uno marcado anteriormente. Cuando ya no queden 1's en la cadena, se reemplazan los 0's con 1's para obtener la respuesta correcta. \\
+    \solution La Máquina de Turing (con el proceso descrito) queda como sigue.
+    \begin{center} {\small
+        \begin{tikzpicture}[node distance=2.5cm]
+            \node [state, initial] (1) {$q_1$};
+            \node [state, above right of=1] (2) [above=-1cm] {$q_2$};
+            \node [state, right of=1] (3) [right=1cm] {$q_3$};
+            \node [state, right of=3] (4) {$q_4$};
+            \node [state, right of=4] (5) {$q_5$};
+            \node [state, above of=5] (6) [above=-1.25cm] {$q_6$};
+            \node [state, below right of = 1] (7) [above=-1cm] {$q_7$};
+            \node [state, right of = 7] (8) {$q_8$};
+            \node [state, right of = 8] (h) {$h$};
+            \path (1) edge[above left] node{$\sqcup/R$} (2)
+                  (2) edge[loop above, min distance=5mm] node{$0/R$} (2)
+                      edge[above] node{$1/0$} (3)
+                      edge[below left] node{$\sqcup/L$} (7)
+                  (3) edge[loop above, min distance=5mm] node[align=center]{$0/R$ \\ $1/R$} (3)
+                      edge[above] node{$\sqcup/0$} (4)
+                  (4) edge[above] node{$0/R$} (5)
+                  (5) edge[right] node{$\sqcup/0$} (6)
+                  (6) edge[bend right, bend right=23] node[above]{$\sqcup/R$} (2)
+                      edge[loop right, min distance=5mm] node[align=center]{$1/L$ \\ $0/L$} (6)
+                  (7) edge[loop left, min distance=5mm] node{$0/L$} (7)
+                      edge[above] node{$\sqcup/R$} (8)
+                  (8) edge[loop above, min distance=5mm] node{$0/1$} (8)
+                      edge[loop below, min distance=5mm] node{$1/R$} (8)
+                      edge[above] node{$\sqcup/L$} (h);
+        \end{tikzpicture} }
+    \end{center}
+
+    \item El bit de paridad es un dígito binario que se le agrega a una cadena que representa un número en binario, y que indica si el número de bits con valor igual a 1 es par o impar. El bit de paridad es el método de detección de errores más simple utilizado en la transmisión digital de datos. El protocolo de comunicación establece el tipo de paridad (par o impar) que se utilizará en el ensamble de los paquetes de datos. \vspace{3mm} \\ 
+    En el caso de la paridad par, se cuenta el número de 1's del número binario de entrada. Si el total es impar, el bit de paridad se establece en 1 y por tanto la suma del total anterior con este bit de paridad, daría par. Si el conteo de bits uno es par, entonces el bit de paridad (par) se establece en 0, pues ya es par. Si el protocolo establece una paridad impar, se realizaría lo contrario: establecer el bit de paridad en 0 cuando el conteo de 1's es impar, y se establece en 1 cuando el conteo de 1's es par. \vspace{3mm} \\ 
+    La siguiente figura muestra la estructura de un paquete de tamaño de un byte. Al final del byte de datos se le agrega el bit de paridad según corresponda a la paridad que especifica el protocolo de comunicación:
+    \begin{center}
+        \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+            \hline
+            0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 o paridad \\
+            \hline
+        \end{tabular}
+    \end{center}
+    Diseñar una Máquina de Turing que lea una cadena en $\{ 0,1 \}^8$ que representa un byte y devuelva el paquete en $\{ 0,1 \}^9$ que incluya al final de la cadena el valor del bit de paridad que corresponda a una paridad impar. \newpage 
+    \solution La Máquina de Turing queda como sigue.
+	\begin{center} {\small
+        \begin{tikzpicture}[node distance=2.3cm]
+            \node [state, initial] (1) {$q_1$};
+            \node [state, right of=1] (2) {$q_2$};
+            \node [state, above of=2] (3) {$q_3$};
+            \node [state, right of=2] (h) {$h$};
+            \path (1) edge[above] node{$\sqcup/R$} (2)
+                  (2) edge[loop below, min distance=5mm] node{$0/R$} (2)
+                      edge[bend right] node[right]{$1/R$} (3)
+                      edge[below] node{$\sqcup/1$} (h)
+                  (3) edge[bend right] node[above left]{$1/R$} (2)
+                      edge[loop above, min distance=5mm] node{$0/R$} (3)
+                      edge[bend left] node[right]{$\sqcup/0$} (h);
+        \end{tikzpicture} }
+    \end{center}
+    
+    \item En una Máquina de Turing multicinta, cada cinta tiene una cabeza de lectura/escritura propia con movimientos independientes de las demás. Una transición del autómata correspondiente a una Máquina de Turing con $N$ cintas ($N>0$) estará formada de dos elementos: el carácter leído y la acción a realizar (escribir o mover), pero cada uno de estos elementos estará precedido por el número de cinta que se desea acceder. Por ejemplo, si la lectura es en la cinta 1 y se lee carácter $a$, el elemento de la lectura en la transición se representa con $1a$; y si se desea mover a la izquierda la cabeza en la cinta 2, el elemento de acción se representa con $2L$, y la transición se escribe $1a/2L$. De igual forma, si una transición se etiqueta como $2b/1a$ indicará que cuando el elemento leído de la cinta 2 sea una $b$, escribirá una $a$ en la cinta 1 en la posición que ocupe la cabeza en ese momento. \vspace{3mm} \\ 
+    Diseñar una Máquina de Turing de tres cintas que sume dos números binarios. Considere que los sumandos se almacenan en las pistas 1 y 2, y que la cadena inicia con el bit menos significativo. La cinta 3 servirá para almacenar el resultado de la operación, por lo que su contenido inicial es una cadena de espacios en blanco. \vspace{3mm} \\
+    \solution La Máquina de Turing recibe dos números binarios, que deben tener el mismo número de caracteres para que el proceso funcione. Esto se logra agregando los 0's necesarios en los números que lo necesiten. Por simplicidad, sea la transición $1,2,3/R$ que consume un caracter cualquiera y mueve la cabeza a la derecha en cada cinta una por una.
+    \begin{center} {\small
+        \begin{tikzpicture}[node distance=2.5cm]
+            \node [state, initial] (1) {$q_1$};
+            \node [state, right of=1] (2) {$q_2$};
+            \node [state, above right of=2] (3) [below=0.6cm] {$q_3$};
+            \node [state, right of=2] (4) [right=0.5cm] {$q_4$};
+            \node [state, below of=3] (5) [below=0.1cm]  {$q_5$};
+            \node [state, right of=5] (6) {$q_6$};
+            \node [state, right of=6] (7)  {$q_7$};
+            \node [state, below of=7] (8) [above=0.4cm] {$q_8$};
+            \node [state, above of=7] (9) {$q_9$};
+            \node [state, below left of=2] (h1) {$h$};
+            \node [state, right of=7] (h2) {$h$};
+            \path (1) edge node[above]{$1,2,3/R$} (2)
+                  (2) edge[bend left] node[above]{$10/10$} (3)
+                      edge[bend right] node[right]{$11/11$}(5)
+                      edge node[left]{$1\sqcup / 3\sqcup$} (h1)
+                  (3) edge[bend left] node[above,align=center]{$20/30$ \\ $21/31$} (4)
+                  (4) edge[bend left] node[above]{$1,2,3/R$} (2)
+                  (5) edge[bend right] node[left] {$20/31$} (4)
+                      edge[below] node{$21/30$} (6)
+                  (6) edge node[above]{$1,2,3/R$} (7)
+                  (7) edge node[right]{$11/11$} (8)
+                      edge node[right]{$10/10$} (9)
+                      edge node[above]{$1\sqcup / 31$} (h2)
+                  (8) edge[bend left] node[left,align=center]{$20/30$ \phantom{...}  \\ $21/31$} (6)
+                  (9) edge[bend right] node[above]{$20/31$} (4)
+                      edge[bend right] node[left]{$21/30$} (6);
+        \end{tikzpicture} }
+    \end{center}   
+\end{enumerate}
+
+\end{document}
