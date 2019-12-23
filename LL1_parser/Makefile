@@ -1,7 +1,7 @@
-all: tokenizer parser
+all: analex anasin
 
-tokenizer: tokenizer.c
-	gcc -Wall tokenizer.c -o tokenizer
+analex: analex.c
+	gcc -Wall analex.c -o analex
 	
-parser: parser.c
-	gcc -Wall -Wno-missing-braces parser.c -o parser
+anasin: anasin.c
+	gcc -Wall -Wno-missing-braces anasin.c -o anasin
