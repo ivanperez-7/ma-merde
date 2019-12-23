@@ -136,9 +136,9 @@ char *getnom(char *src, char *exten){
 }
 
 int main(int argc, char **argv){
-    int line, index, flag = argc == 2 ? 0 : atoi(argv[2]);
+    int index, flag = argc == 2 ? 0 : atoi(argv[2]);
     char input[LEN], *top;
-    FILE *fsrc = fopen(argv[1],"r"), *flin = fopen(getnom(argv[1],".lin"),"r");
+    FILE *fsrc = fopen(argv[1],"r");
     
     if(!fsrc){
         printf("\nNo file %s was found.\n\n",argv[1]);
@@ -146,7 +146,6 @@ int main(int argc, char **argv){
     }
     
     fscanf(fsrc,"%s",input);
-    fscanf(flin,"%d",&line);
     push(&parser,"$");
     push(&parser,NONTER[0]);
     if(flag) print(parser);
@@ -154,10 +153,8 @@ int main(int argc, char **argv){
     do {
         top = pop(&parser);
             
-        if(isterminal(top) && equal(top,input)){
+        if(isterminal(top) && equal(top,input))
             fscanf(fsrc,"%s",input);
-            fscanf(flin,"%d",&line);
-        }
         else if(!isterminal(top) && (index = LL1[idx(NONTER,top)][idx(TER,input)]))
             pushrule(rules[index]);
         else
