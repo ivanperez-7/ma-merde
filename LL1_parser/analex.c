@@ -245,18 +245,24 @@ int main(int argc, char **argv){
     
     fclose(fsrc);    
     fclose(flex);
-
+    
     fprintf(fsim,"IDS\n");
-    for(i = 0; sim.IDS[i]; i++)
+    for(i = 0; sim.IDS[i]; i++){
         fprintf(fsim,"%s, ID%.2d \n",sim.IDS[i],i);
+        free(sim.IDS[i]);
+    }
    
     fprintf(fsim,"\nTXT\n");
-    for(i = 0; sim.TXT[i]; i++)
+    for(i = 0; sim.TXT[i]; i++){
         fprintf(fsim,"%s, TX%.2d \n",sim.TXT[i],i);
+        free(sim.TXT[i]);
+    }
 
     fprintf(fsim,"\nVAL\n");
-    for(i = 0; sim.VAL[i]; i++)
+    for(i = 0; sim.VAL[i]; i++){
         fprintf(fsim,"%s, %d \n",sim.VAL[i],(int)strtol(sim.VAL[i], NULL, 0));
+        free(sim.VAL[i]);
+    }
     
     fclose(fsim);
     
