@@ -1,46 +1,106 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 
 \usepackage[spanish]{babel}
 \usepackage[utf8]{inputenc}
-\usepackage[letterpaper, margin = 1in]{geometry}
-\usepackage{amsmath,amsthm,amssymb,mathtools}
-
-\author{
-Avilés Domínguez Jorge Emmanuel \\
-Leyva Martínez Carlos Alberto \\ 
-Pérez Maldonado Iván Alberto \\
-Toquiantzi Hoffmann Tomás Daniel \\
-Zapata Vargas Karina Montserrat \\
-}
-\title{Métodos con eigenvectores para la recuperación de información web}
+\usepackage[T1]{fontenc}
+\usepackage{tgpagella}
+\usepackage[letterpaper, margin = 1.2in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools,xcolor}
 
 \begin{document}
 
-\maketitle
+\begin{titlepage}
+	\centering \textcolor{white}{.} \par
+	\vspace{1.5cm}
+	{\scshape\LARGE Universidad Autónoma de Yucatán \par}
+	\vspace{2cm}
+	{\scshape\Large Proyecto final de Álgebra Lineal\par}
+	\vspace{1.5cm}
+	{\huge\bfseries Métodos con vectores propios para la recuperación de información web\par}
+	\vspace{2cm}
+	{\Large\itshape 
+	Jorge Avilés Domínguez,
+	Alberto Leyva Martínez,
+	Iván Pérez Maldonado,
+	Tomás Toquiantzi Hoffmann,
+	Karina Zapata Vargas
+	\par}
+	\vspace{1.5cm}
+	{\Large Tercer semestre, segundo año}
+	\vfill
+	profesor\par
+    \textsc{José Alejandro Lara Rodríguez}
+	\vfill
+	{\large 26 de noviembre de 2019 \par}
+\end{titlepage}
 
-\section{Introducción}
-En este documento se discuten los temas desarrollados en el artículo \textit{A Survey of Eigenvector Methods for Web Information Retrieval}, de Langville, A. y Meyer, C., artículo que habla sobre tres métodos modernos de recuperación de información web basados en el álgebra lineal, nombrados HITS (Hypertext Induced Topic Search, desarrollado en 1997), PageRank (desarrollado en 1999) y SALSA (desarrollado en el año 2000). Desde años anteriores, ya se tenían métodos de recuperación de información como el Latent Semantic Indexing (LSI), que trabajaban con pequeñas colecciones de documentos. Se volvieron famosos gracias a su habilidad de manejar efectivamente búsquedas generalmente problemáticas que involucraban polisemia y sinónimos; sin embargo, una colección como la World Wide Web cae dramáticamente fuera del alcance del LSI y de otros métodos de recuperación de información debido a varias grandes razones. \par
-Los tres métodos mencionados fueron diseñados con el fin de poder trabajar con esa forma, enorme tamaño y peculiaridades de la World Wide Web. Como veremos en este papel, cada método tiene su propia sustentación en el álgebra lineal, particularmente, en el cálculo y uso de eigenvectores y eigenvalores de una matriz. \par
+\hrulefill
+\begin{abstract}
+La búsqueda de información web es notoriamente más desafiante que la búsqueda de información en pequeñas colecciones de documentos. La diferencia principal es la estructura y tamaño que conforma a la World Wide Web. Ante esto, se comenzaron a desarrollar y mejorar métodos de búsqueda de información web que fuesen capaces de lidiar con el problema dado, métodos que se apoyan en el álgebra lineal y otros temas de las ciencias de la computación. Aquí nos enfocaremos en los tres métodos más populares que usan el cálculo de eigenvectores.
+\end{abstract}
+\hrulefill
+
+\section{Introducción} 
+En este documento se discuten los temas desarrollados en el artículo \textit{A Survey of Eigenvector Methods for Web Information Retrieval}, de Langville, A. y Meyer, C., artículo que habla sobre tres métodos modernos de recuperación de información web basados en el álgebra lineal, nombrados HITS (Hypertext Induced Topic Search, desarrollado en 1997), PageRank (desarrollado en 1999) y SALSA (desarrollado en el año 2000). Desde años anteriores, ya se tenían métodos de recuperación de información como el Latent Semantic Indexing (LSI), que trabajaban con pequeñas colecciones de documentos. Se volvieron famosos gracias a su habilidad de manejar efectivamente búsquedas generalmente problemáticas que involucraban polisemia y sinónimos; sin embargo, una colección como la World Wide Web cae dramáticamente fuera del alcance del LSI y de otros métodos de recuperación de información debido a varias grandes razones. \par \vspace{0.3cm}
+Los tres métodos mencionados fueron diseñados con el fin de poder trabajar con la forma, enorme tamaño y peculiaridades de la World Wide Web. Como veremos en este reporte, cada método tiene su propia sustentación en el álgebra lineal, particularmente, en el cálculo y uso de eigenvectores y eigenvalores de una matriz. Haciendo un pequeño recordatorio, un valor propio de una matriz $A$ de orden $n$ es un número complejo $\lambda$ para el cual existe un vector $v\neq 0$ que satisface la igualdad $Av=\lambda v$. Al vector $v\neq 0$ se le conoce como vector propio de la matriz $A$.
 
 \section{HITS}
-A continuación se expande el grafo alrededor del subconjunto de nodos en $N$ agregando nodos que apuntan a nodos en $N$ o son apuntados por $N$. Esta expansión permite que se hagan asociaciones semánticas latentes, pero el número máximo de nodos de enlace para agregar un nodo en particular en $N$ es fijo. El proceso de construir el gráfico de vecindad está fuertemente relacionado con la creación de conjuntos de niveles en el filtrado de información, lo que reduce una matriz dispersa a una mucho más pequeña y relevante para consultas. \par
-Una vez que se construye el conjunto $N$, la matriz de adyacencia $L$ correspondiente a los nodos en $N$ se forma. El orden de $L$ es mucho menor que el número total de nodos/documentos en la red. Por lo tanto, la autoridad de cómputo y los puntajes del centro utilizan los vectores propios de $L^TL$ y $LL^T$ tienen un costo pequeño en comparación con la autoridad de cómputo y los puntajes centrales cuando se colocan todos los documentos en la Web. 
+La primera generación de motores de búsqueda incluye sistemas como Excite, Lycos y AltaVista. Estos sistemas clasificaron los resultados de búsqueda utilizando modelos clásicos de recuperación de información ya que consideraron las páginas web como si fueran archivos de texto y aplicaron otros métodos como el modelo de espacio vectorial. La principal limitación de este método fue la falta de relevancia dada a una página debido a su popularidad;  Lycos tomó en cuenta este factor por primera vez, y en 1996 utilizó el principio de votación de enlace, lo que le dio una mayor popularidad a los sitios que estaban más vinculados por otros sitios.  Esta idea evolucionó hacia el desarrollo de la segunda generación de motores de búsqueda, marcada por el advenimiento de Google, que utilizó una medida más sofisticada de popularidad de página, en la que los enlaces de páginas con alta reputación otorgan mayor relevancia a las páginas. \par \vspace{0.3cm}
+Esta idea está en la base de los métodos de análisis de enlaces, como el algoritmo HITS. La búsqueda de temas que está inducida por los hipervínculos (HITS) es un algoritmo de análisis de enlaces que califica las páginas web. Este algoritmo se basa en la existencia de dos tipos importantes de sitios web, que ayudan a calcular mejor la relevancia de una página web. El primero de ellos es el "hub" que agrupa a todos esos sitios web recibiendo muchos links y enlaza a páginas web que consideran relevante. El segundo tipo es la “autoridad”", ésta, agrupa a los sitios web que reciben una gran cantidad de links. El primero determina que tan buena puede ser una página como recurso de enlaces y el segundo valora a una página como recurso de información.
+El algoritmo HITS tiene la misma base que PageRank ya que ambos hacen uso de la estructura de enlaces del gráfico web para decidir la relevancia de las páginas. \par \vspace{0.3cm}
+A diferencia del algoritmo de PageRank , HITS solo opera en un pequeño subgrafo del gráfico web. Este subgrafo depende de la consulta; cada vez que buscamos con una frase de consulta diferente, la semilla también cambia. HITS clasifica los nodos semilla de acuerdo con su autoridad y los pesos del centro. El motor de consulta muestra las páginas con la clasificación más alta al usuario.
+Una ventaja del algoritmo HITS para IR es su clasificación dual. HITS presenta dos listas clasificadas al usuario: una con los documentos más autorizados relacionados con la consulta y la otra con la mayoría de los documentos "hubby". Un usuario puede estar más interesado en una lista clasificada que en otra según la aplicación. HITS también presenta el problema general de IR web como un
+pequeño problema, encontrar los vectores propios dominantes de matrices pequeñas. El tamaño de estas matrices es muy pequeño en relación con el número total de documentos en la Web.
+La expansión del gráfico realizada durante el primer paso del algoritmo HITS hace que el método sea muy sensible a los comportamientos maliciosos.  \par \vspace{0.3cm}
+Una fuente de problemas puede provenir de webmasters maliciosos que intentan aumentar artificialmente el puntaje central de su sitio agregando varios enlaces nepotistas que conectan páginas del mismo sitio web o páginas de sitios web administrados por la misma organización, además de que  la calificación o puntaje podría aumentar debido a fallas hechas por el diseñador de la página web. HITS supone que cuando un usuario crea una página web, vincula un hipervínculo desde su página a otra página de autoridad, ya que honestamente cree que la página de autoridad está relacionada de alguna manera con su página.
+La evaluación del tiempo de consulta es costosa. Este es un inconveniente importante ya que HITS es un algoritmo dependiente de la consulta. 
 
 \section{PageRank}
-Los motores de búsqueda cuentan con rastreadores muy potentes que navegan y analizan los sitios web y crean una base de datos con la información recolectada, lo indexan y catalogan, los valores del PageRank se asignan antes de que se haga una consulta de acuerdo a su importancia, para que en el momento de la consulta se presente una lista clasificada de páginas relacionadas con los términos de la consulta y así el usuario tenga un resultado instantáneamente. \par
-La clasificación del PageRank se basa en la cantidad de enlaces de páginas a otras páginas. La idea es que los enlaces de páginas más importantes tengan más peso que los enlaces de otras páginas menos importantes, se define como el rango $r(P)$ de una página $P$ como:
-\begin{gather*}
-    r(P) = \sum_{Q\in \mathcal{B}_P} \frac{r(Q)}{|Q|}, \quad \text{      donde      } \quad
-    \begin{split}
-        \mathcal{{B}_P} &= \text{todas las páginas que apuntan a } P, \\ 
-        |Q| &= \text{número de links salientes de } Q.
-    \end{split}
-\end{gather*}
+Los co-fundadores de Google Sergey Brin y Larry Page idearon PageRank en 1997 como parte de un proyecto de investigación en la Universidad de Stanford. PageRank  es una fórmula matemática que juzga el valor de una página mediante la observación de la cantidad y calidad de otras páginas que la enlazan. La finalidad es determinar la importancia relativa de un sitio web determinado en una red. Dicha fórmula está dada por
+{\fontfamily{cmr}\selectfont $$ \text{PR} (A) = (1-d)+d\sum_{i=1}^n \frac{\text{PR}(i)}{C(i)}, $$}
+donde {\fontfamily{cmr}\selectfont $ \text{PR} (A)$} es el PageRank de la página $A$, $d$ es un factor de amortiguación que tiene un valor entre 0 y 1, {\fontfamily{cmr}\selectfont $ \text{PR} (i)$} son los valores de PageRank que tienen cada una de las páginas $i$ que enlazan a $A$ y por último $C(i)$ es el número total de enlaces salientes de la página i (sean o no hacia A). \par \vspace{0.3cm}
+Este algoritmo afirma que proporciona páginas de clasificación superior que son relevantes. El algoritmo de PageRank describe la popularidad de la página web o sitio web y depende del análisis de enlace en el que la clasificación de la página web se decide en función de los enlaces salientes y los enlaces entrantes. Eso significa que se basa totalmente en el enlace de WWW y Google utiliza este algoritmo para buscar en las páginas web en función de la cantidad de hipervínculos, como entrantes y salientes. 
+Los enlaces entrantes son aquellos enlaces que provienen de otro sitio a su sitio web, también se conocen como "vínculos de retroceso". Google considera que solo los enlaces relevantes apuntan a su sitio, pero no puede controlar qué sitios apuntan a su sitio. Si el contenido de su sitio web es único y rico, entonces hay muchas posibilidades de que esos enlaces sean "dofollow"; de lo contrario, los enlaces se considerarán como "nofollow".
+Los enlaces salientes son aquellos enlaces que apuntan a otro sitio desde su sitio web y para así poder tener más control sobre estos enlaces.
+El algoritmo PageRank valora los sitios web basándose en el siguiente principio: “cuantos más enlaces, más importante es el sitio”. \par \vspace{0.3cm}
+ Para este algoritmo, no solo el número de enlaces tiene importancia sino también el valor del sitio que enlaza. Independientemente del contenido, un sitio web recibirá mejor nota si recibe enlaces de otros sitios web importantes. De este modo, el posicionamiento de un sitio web depende directamente del posicionamiento del sitio web que lo enlaza.
+Los motores de búsqueda cuentan con rastreadores muy potentes que navegan y analizan los sitios web y crean una base de datos con la información recolectada, lo indexan y catalogan, los valores del PageRank se asignan antes de que se haga una consulta de acuerdo a su importancia, para que en el momento de la consulta se presente una lista clasificada de páginas relacionadas con los términos de la consulta y así el usuario tenga un resultado instantáneamente.
+Debido a que este algoritmo se basaba principalmente en los enlaces, el contenido, que es un elemento mucho más importante para los usuarios, pasaba desapercibido. Además, con estos algoritmos, era posible comprar enlaces para conseguir un mejor posicionamiento, muy conveniente para el propietario del sitio web pero esto resultaba muy poco o nada conveniente para el usuario. 
 
 \section{SALSA}
-cscssccs
+Otro método para la recuperación de información web es la aproximación estocástica para el análisis de estructura de enlaces, o mejor conocido por sus siglas en inglés SALSA, es un algoritmo diseñado en el año 2000 por los investigadores R. Lempel y S. Moran. El diseño de este algoritmo está basado en las ideas principales de HITS y PageRank. De la misma manera que HITS, se crean puntajes centrales y de autoridad para las páginas web, además de la implementación de grafos para posteriormente crear matrices de adyacencia, y como en PageRank, la aproximación está basada en la teoría de las cadenas de Markov, realizando búsquedas aleatorias en nuestra colección de páginas web. A diferencia de PageRank, este algoritmo realiza dos búsquedas en los conjuntos de autoridades y de puntajes centrales respectivamente. \par \vspace{0.3cm}
+El algoritmo es muy parecido a HITS en la parte inicial, pero este difiere en el momento que el grafo de vecindad $N$ es creado, en HITS el siguiente paso sería crear una matriz de adyacencia a dicho grafo, pero en SALSA el siguiente paso es crear un grafo bipartito no dirigido que denominaremos $G$, el cual estará conformado por los conjuntos $V_h, V_a$ y $E$, dónde: $V_h$ es el conjunto de nodos en $N$ donde el número de aristas que se dirigen al nodo es mayor a cero, $V_a$ es el conjunto de nodos en $N$ donde el número de aristas que salgan de ese nodo es mayor a cero y $E$ el conjunto de aristas dirigidas en $N$, es decir, que en $V_h$ se encuentran todos los nodos que dirigen a algún otro nodo y en $V_a$ se encuentran todos los nodos los cuales son dirigidos de algún otro nodo. \par \vspace{0.3cm}
+Se creará el grafo de forma que los nodos estarán distribuidos en dos “lados” donde los nodos en $V_h$ estarán colocados en un lado central y los nodos en $V_a$ estarán colocados en un lado de autoridad y donde las aristas dirigidas en $E$ serán representadas por aristas no dirigidas en el grafo. A partir de este nuevo grafo se crearán dos cadenas de Markov las cuales recorrerán aleatoriamente el grafo, cada una empezando de un lado distinto y ya que los dos lados de $G$ están conectados entre sí, estas serán capaces de generar dos matrices, que denominaremos $A$ y $H$, donde $A$ será la matriz que representa el recorrido hecho de una cadena de Marcov sobre el lado de autoridad de $G$ y $H$ será la matriz que representa el recorrido hecho de una cadena de Marcov sobre el lado central de $G$. \par \vspace{0.3cm}
+Los valores de $A$ y $H$ se pueden calcular directamente, pero a su vez estas matrices se pueden calcular a partir de la matriz $L$ del grafo $N$ que se debe calcular en el método HITS, ya que si a partir de esa matriz $L$ creamos una nueva matriz donde dividimos las columnas diferentes de cero entre el número de elementos que encontramos en dicha columna y la llamamos $L_c$, y también creamos a partir de la matriz $L$ otra nueva matriz donde dividimos las filas diferentes de cero entre el número de elementos que encontramos en dicha fila y la llamamos $L_r$; a partir de estas nuevas matrices podemos calcular $A$ y $H$. Si calculamos $L_rL_c^T$ y de la matriz resultante solo consideramos las filas y columnas distintas de cero, nos da como resultado la matriz $H$, y si calculamos $L_c^TL_r$ y de la matriz resultante solo consideramos las filas y columnas distintas de cero, obtenemos la matriz $H$. Una vez llegado a este punto existen dos caminos a tomar dependiendo de la composición de $G$, y es que $G$ puede estar conectado o no.
+\begin{itemize}
+    \item Cuando $G$ está conectado: \\
+    Una vez obtenidas $A$ y $H$, estas serán irreducibles cadenas de Markov y los vectores resultantes darán directamente los puntajes centrales a partir de la matriz $H$ y los puntajes de autoridad a partir de la matriz $A$. \newpage
+    \item Cuando G no está conectado: \\
+    Una vez obtenidas $A$ y $H$, se tendrá que buscar la relación entre los elementos de las matrices y representarlas en conjuntos, una vez obtenidos estos conjuntos se calcularán los vectores relativos de cada conjunto: Se calculará a relación entre elementos en el conjunto y elementos totales de $G$ y se multiplicará esa relación por el valor dado de cada elemento de los conjuntos. Una vez obtenidos los vectores relativos a cada conjunto, se unirán para representar el vector global con los puntajes de los elementos de $G$. El vector resultante a partir de la matriz $H$ representará los puntajes globales y el vector resultante a partir de la matriz $A$ representará los puntajes de autoridad de los elementos de $G$.
+\end{itemize}
+Es importante notar el puntaje de autoridad de los elementos representa uno de los valores del principal eigenvector de la matriz principal $A$. \par \vspace{0.3cm}
+Como se puede observar en todo el proceso, este algoritmo se basa notablemente en HITS y PageRank, cambiando detalles específicos que cubren las debilidades de ambos, pero muy bueno que suene, SALSA también tiene sus propios defectos, uno de los principales es el tiempo de búsqueda, ya que tiene que formar el grafo $N$, el grafo $G$ y además resolver dos cadenas de Markov, lo cual es mucho tiempo dependiendo del número de elementos; otra desventaja de SALSA es su convergencia, ya que, como pudimos observar en el paso final del algoritmo, existen dos casos, que las matrices sean irreducibles o que los elementos lo sean, lo cual nos impide converger a un elemento en específico y los vectores no son únicos y dependen del inicial. 
 
 \section{Conclusiones}
-Gracias por leer prof
-   
+Los métodos de recuperación de información web son algoritmos de interés cuyo desarrollo se ve facilitado con el uso de herramientas como el álgebra lineal. Como hemos podido observar, a pesar de que cada método se relaciona de alguna forma con los otros, éstos tienen su esencia y su propia forma de utilizar el álgebra lineal. El ejemplo que se ve reflejado a través de todo el documento es el uso de los eigenvectores y eigenvalores de una matriz, que aunque son conceptos sencillos de entender, tienen aplicaciones muy útiles en las ciencias de la computación. \par \vspace{0.3cm}
+El álgebra lineal no solamente la vamos a encontrar en problemas como desarrollar este tipo de algoritmos, sino que también la vamos a encontrar en la compresión de imágenes JPEG, problemas que involucran grafos, criptografía, procesamiento de imágenes y gráficas en computadora y otras aplicaciones en ingenierías. Estos problemas encuentran su solución eficiente en el álgebra lineal. Con frecuencia al estudiar el álgebra lineal y otras ramas de las matemáticas, uno es propenso a realizarse preguntas como '\textit{¿y esto en qué me va a servir?}'. Sin embargo, todos los avances tecnológicos que vemos hoy en día, todos los algoritmos que operan a velocidades increíbles, todos las máquinas y dispositivos que tienen su nacimiento en bases y fundamentos matemáticos, hablan por sí mismos. \newpage
+
+\subsection{Temas relacionados con el curso}
+El artículo incluye los siguientes tema del Álgebra Lineal:
+\begin{itemize}
+	\item Vectores en un espacio $\mathbb{R}^n$.
+	\item Eigenvectores y eigenvalores.
+	\item Matrices y operaciones con matrices.
+	\item Forma escalonada de una matriz.
+	\item Tipos especiales de matrices.
+\end{itemize}
+
+\begin{thebibliography}{}
+
+\bibitem{one} Ceri, S., Bozzon, A., Brambilla, M., Della Valle, E., Fraternali, P. y Quarteroni, S. \textit{Web Information Retrieval}.
+\bibitem{two}  Amy N. Langville, Carl D. (2006). \textit{Information Retrieval and Web Search}.
+\bibitem{three} Lempel, R., \& Moran, S. (2000). \textit{The stochastic approach for link-structure analysis (SALSA) and the TKC effect.} Computer Networks, 33(1-6), 387-401.
+
+\end{thebibliography}
+
 \end{document}
