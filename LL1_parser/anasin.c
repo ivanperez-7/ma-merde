@@ -168,9 +168,9 @@ int main(int argc, char **argv){
     } while( !err && parser.sp != 0 );
         
     if(!err)
-        printf("\n\nSuccesful parsing.\n\n");
+        printf("\nSuccesful parsing.\n\n");
     else
-        printf("\n\nSyntax error. Parsing failure.\n\n");
+        printf("\nSyntax error. Parsing failure.\n\n");
     
     return 0;
 }
