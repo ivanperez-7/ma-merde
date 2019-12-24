@@ -35,8 +35,12 @@ int search(char **arr, char *src){
 }
 
 char *getnom(char *src, char *exten){
-    char *out = strdup(src);
-    out[strlen(src)-4] = 0;
+    static char out[30];
+    int i;
+    
+    for(i = 0; src[i] != '.'; i++)
+        out[i] = src[i];
+    out[i] = 0;
 
     return strcat(out,exten);
 }
