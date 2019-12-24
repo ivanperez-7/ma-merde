@@ -128,17 +128,6 @@ void print(struct Stack p){
     printf("%s]\n",p.stack[i]);
 }
 
-char *getnom(char *src, char *exten){
-    static char out[30];
-    int i;
-    
-    for(i = 0; src[i] != '.'; i++)
-        out[i] = src[i];
-    out[i] = 0;
-
-    return strcat(out,exten);
-}
-
 int main(int argc, char **argv){
     int index, flag = argc == 2 ? 0 : atoi(argv[2]);
     char input[LEN], *top;
