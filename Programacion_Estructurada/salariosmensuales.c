@@ -81,9 +81,9 @@ int main(){
    return 0;
 }
 
-// ****************** Descripción de funciones ******************
+// ****************** DescripciÃ³n de funciones ******************
 
-int scans(char cadena[], int MAX){
+void scans(char cadena[], int MAX){
    int i, c;
 
    for(i = 0;i < MAX - 1 && (c = getchar()) != EOF && c != 10;i++)
