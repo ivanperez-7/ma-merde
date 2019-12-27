@@ -1,20 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <compiler.h>
 
-#define TRUE 1
-#define FALSE 0
 #define LEN 32                 // lenght of ter + non-ter strings
 #define MAX 32                 // maximum size of stack
 
-struct Stack{
-    int sp, top;
-    char stack[MAX][LEN];
-} parser = {0,MAX,{""}};
-
-char NONTER[][LEN] = {"<PROG>","<SENTS>","<SENT>","<AUX0>","<AUX1>","<AUX2>","<AUX3>","<ELEM>","<COMPARA>"};
-char TER[][LEN] = {"PROGRAMA","FINPROG","[id]","=","[op_ar]","SI","ENTONCES","SINO","FINSI","REPITE","VECES","FINREP","IMPRIME","[txt]","LEE","#","[comentario]","[val]","[op_rel]","$"};        // include EOF "$"
-char rules[][100] = { "",                              // right side of rule separated by blank spaces!!
+char *NONTER[] = {"<PROG>","<SENTS>","<SENT>","<AUX0>","<AUX1>","<AUX2>","<AUX3>","<ELEM>","<COMPARA>"};
+char *TER[] = {"PROGRAMA","FINPROG","[id]","=","[op_ar]","SI","ENTONCES","SINO","FINSI","REPITE","VECES","FINREP","IMPRIME","[txt]","LEE","#","[comentario]","[val]","[op_rel]","$"};        // include EOF "$"
+char *rules[] = { "",                              // right side of rule separated by blank spaces!!
     "<PROG> -> PROGRAMA [id] <SENTS> FINPROG",      
     "<SENTS> -> <SENT> <AUX0>",                 
     "<AUX0> -> <SENTS>",                            
@@ -36,7 +28,7 @@ char rules[][100] = { "",                              // right side of rule sep
     "<COMPARA> -> [id] [op_rel] <ELEM>" 
 };
 
-int LL1[][(int)(sizeof(TER)/LEN)] = {                                       // 0 = no transition in LL1 table - syntax error
+int LL1[][(int)(sizeof(TER)/sizeof(char *))] = {                                       // 0 = no transition in LL1 table - syntax error
     1, 0, 0,  0, 0, 0, 0, 0, 0,  0,  0, 0, 0,  0,  0,  0,  0, 0,  0, 0,
     0, 0, 2,  0, 0, 2, 0, 0, 0,  2,  0, 0, 2,  0,  2,  2,  0, 0,  0, 0,
     0, 0, 5,  0, 0, 8, 0, 0, 0,  11, 0, 0, 12, 0,  15, 16, 0, 0,  0, 0,
@@ -48,55 +40,23 @@ int LL1[][(int)(sizeof(TER)/LEN)] = {                                       // 0
     0, 0, 19, 0, 0, 0, 0, 0, 0,  0,  0, 0, 0,  0,  0,  0,  0, 0,  0, 0
 };
 
-const int T = (int)(sizeof(TER)/LEN);           // number of terminals
-const int NT = (int)(sizeof(NONTER)/LEN);       // number of non-terminals
-int err = FALSE;
+const int T = (int)(sizeof(TER)/sizeof(char*));
+const int NT = (int)(sizeof(NONTER)/sizeof(char*));
 
-int equal(char *a, char *b){
-    return (!strcmp(a,b));
-}
+int idx(char **arr, char *src){
+    int idx, lim = equal(arr[0],"PROGRAMA") ? T : NT;
 
-int idx(char arr[][LEN], char *src){
-    int idx, lim = equal(arr[0],NONTER[0]) ? NT : T;
-
-    for(idx = 0; !equal(arr[idx],src) && idx < lim; idx++) 
+    for(idx = 0; !equal(arr[idx],src) && idx < lim; idx++)
         ;
     if(idx == lim){
-        printf("\nERROR: %s not found in array %s\n\n",src,(lim == NT ? "NONTER" : "TER"));
+        printf("ERROR: %s not found in array %s\n",src,equal(arr[0],"PROGRAMA") ? "TER" : "NONTER");
         exit(-1);
     }
     return idx;
 }
 
 int isterminal(char *src){
-    int i = 0;
-
-    for(; i < T; i++)
-        if(equal(TER[i],src))
-            return TRUE;
-
-    return FALSE;
-}
-
-void push(struct Stack *p, char *in){
-    if(p->sp < p->top){
-        strcpy(p->stack[p->sp], in);
-        p->sp++;
-    }
-    else{
-        printf("\nFull stack\n");
-        err = TRUE;
-    }
-}
-
-char *pop(struct Stack *p){
-    static char out[LEN];
-
-    p->sp--;
-    strcpy(out,p->stack[p->sp]);
-    strcpy(p->stack[p->sp],"");
-
-    return out;
+    return search(TER,src);
 }
     
 char *revstr(char *src){
@@ -110,56 +70,69 @@ char *revstr(char *src){
     return out;
 }
 
-void pushrule(char *rule){
+void pushrule(StackStr *p, char *rule){
     char *token = strtok(revstr(rule),"   "), aux[LEN];
     
     while(token && !equal(token,">-")){
-        push(&parser,revstr(strcpy(aux,token)));
+        pushStr(p,revstr(strcpy(aux,token)));
         token = strtok(NULL,"  ");
     }
 }
 
-void print(struct Stack p){
-    int i;
+void printerror(int line, char *top, char *input){
+    printf("\nLine %d: ",line);
 
-    printf("[");
-    for(i = 0; i < p.sp-1; i++)
-        printf("%s, ",p.stack[i]);
-    printf("%s]\n",p.stack[i]);
+    if(equal(top,"FINPROG"))
+        printf("no FINPROG was found.");
+    else if(equal(top,"="))
+        printf("expected = operator after identifier");
+    else if(equal(top,"<ELEM>"))
+        printf("expected identifier or integer.");
+    else
+        ;
 }
 
 int main(int argc, char **argv){
-    int index, flag = argc == 2 ? 0 : atoi(argv[2]);
-    char input[LEN], *top;
-    FILE *fsrc = fopen(argv[1],"r");
-    
+    int line, index;
+    char input[LEN], top[LEN], flag = argc < 3 ? 0 : 1;
+    FILE *fsrc = fopen(argv[1],"r"), *flin = fopen(getnom(argv[1],".lin"),"r");
+    StackStr parser;
+
     if(!fsrc){
         printf("\nNo file %s was found.\n\n",argv[1]);
         exit(-1);
     }
     
+    initPila(&parser,MAX,LEN); 
     fscanf(fsrc,"%s",input);
-    push(&parser,"$");
-    push(&parser,NONTER[0]);
-    if(flag) print(parser);
+    fscanf(flin,"%d",&line);
+    pushStr(&parser,"$");
+    pushStr(&parser,NONTER[0]);
+    if(flag) printStr(parser);
 
     do {
-        top = pop(&parser);
-            
-        if(isterminal(top) && equal(top,input))
+        popStr(&parser,top);
+        
+        if(isterminal(top) && equal(top,input)){
             fscanf(fsrc,"%s",input);
+            fscanf(flin,"%d",&line);
+        }
         else if(!isterminal(top) && (index = LL1[idx(NONTER,top)][idx(TER,input)]))
-            pushrule(rules[index]);
-        else
+            pushrule(&parser,rules[index]);
+        else{
             err = TRUE;
+            printerror(line,top,input);
+        }
         
-        if(flag) print(parser);
-    } while( !err && parser.sp != 0 );
-        
+        if(flag) printStr(parser);
+    } while( parser.sp != 0 );
+    
+    freePila(&parser);
+    
     if(!err)
         printf("\nSuccesful parsing.\n\n");
     else
-        printf("\nSyntax error. Parsing failure.\n\n");
+        printf("\n\nParsing failure.\n\n");
     
     return 0;
 }

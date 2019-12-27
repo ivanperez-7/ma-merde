@@ -1,5 +1,5 @@
 # programa para probar el compilador
-PROGRAMA ejemplo            # comentario equisde
+PROGRAMA ejemplo           # comentario equisde
 
 IMPRIME "Que desea hacer?"          # calculadora basica con dos numeros
 IMPRIME "1. SUmar"
@@ -39,16 +39,16 @@ REPITE 0xF VECES                # sentencia para repetir
     i = i + 0xF 
 FINREP
 
-IMPRIME "Lol?"
+IMPRIME "David sucks?"
 IMPRIME "1.- si"
 IMPRIME "2.- no"
 
 LEE respuesta
 
 SI respuesta == 0x1 ENTONCES
-    IMPRIME "LOL !!!"
+    IMPRIME "Es correcto !!!"
 SINO
-    IMPRIME "lol"
+    IMPRIME "Pues no, david sucks"
 FINSI
 
 IMPRIME "vuelva pronto"

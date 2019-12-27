@@ -1,19 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <ctype.h>
+#include <compiler.h>
 
-#define TRUE 1
-#define FALSE 0
 #define MAXLEN 256
 #define SIZE 64
 
-struct TABLA{ 
-    int idscont, valcont, txtcont;
-    char *IDS[SIZE], *VAL[SIZE], *TXT[SIZE];
-} sim = {0,0,0,{""},{""},{""}};
-
-char *keywords[11] = {"PROGRAMA","FINPROG","SI","ENTONCES","SINO","FINSI","REPITE","VECES","FINREP","IMPRIME","LEE"};
+char *keywords[] = {"PROGRAMA","FINPROG","SI","ENTONCES","SINO","FINSI","REPITE","VECES","FINREP","IMPRIME","LEE"};
 
 int isoperator(char c){
     return (c == '+' || c == '-' || c == '*' || c == '/' || c == '>' || c == '<' || c == '#' || c == '=');
@@ -26,29 +17,17 @@ int is_blank(char c){
 int ishexdec(char c){
     return (isdigit(c) || (c >= 65 && c <= 70) || (c >= 97 && c <= 102));
 }
-
-int search(char **arr, char *src){
-    for(int i = 0; arr[i]; i++)
-        if(!strcmp(src, arr[i]))
-            return TRUE;
-    return FALSE;
-}
-
-char *getnom(char *src, char *exten){
-    static char out[30];
-    int i;
     
-    for(i = 0; src[i] != '.'; i++)
-        out[i] = src[i];
-    out[i] = 0;
-
-    return strcat(out,exten);
+void pushtable(StackStr *p, char *src){
+    if(!search(p->stack,src))
+        pushStr(p,src);
 }
 
 int main(int argc, char **argv){
-    int i, state, err = FALSE, line = 1, linestr;
+    int i, state, line = 1, linestr;
     char c, ulex[MAXLEN];
-    FILE *fsrc = fopen(argv[1],"r"), *flex, *fsim;
+    FILE *fsrc = fopen(argv[1],"r"), *flex, *fsim, *flin;
+    StackStr ids, val, txt;
 
     if(!fsrc){
         printf("\nNo file %s was found.\n\n",argv[1]);
@@ -57,6 +36,11 @@ int main(int argc, char **argv){
 
     flex = fopen(getnom(argv[1],".lex"),"w");
     fsim = fopen(getnom(argv[1],".sim"),"w");
+    flin = fopen(getnom(argv[1],".lin"),"w");
+    initPila(&ids,SIZE,20);
+    initPila(&val,SIZE,20);
+    initPila(&txt,SIZE,MAXLEN);
+    
     c = fgetc(fsrc);
     
     while(c != EOF){
@@ -96,7 +80,7 @@ int main(int argc, char **argv){
                 } while(ishexdec(c));
                 ulex[i] = 0;
                     
-                if(!strcmp(ulex,"0x") && (is_blank(c) || isoperator(c))){
+                if(equal(ulex,"0x") && (is_blank(c) || isoperator(c))){
                     printf("Line %d. Incomplete numerical variable %s \n",line,ulex);
                     err = TRUE;
                 }
@@ -112,10 +96,8 @@ int main(int argc, char **argv){
                 }
                 else{
                     fprintf(flex,"[val]\n");
-                    if(!search(sim.VAL,ulex)){
-                        sim.VAL[sim.valcont] = strdup(ulex);
-                        sim.valcont++;
-                    }
+                    fprintf(flin,"%d\n",line);
+                    pushtable(&val,ulex);
                 }
                 break;
             
@@ -126,8 +108,10 @@ int main(int argc, char **argv){
                 } while(isalnum(c) && i < 15);
                 ulex[i] = 0;
                 
-                if(search(keywords,ulex))                           // keyword
+                if(search(keywords,ulex)){                           // keyword
                     fprintf(flex,"%s\n",ulex);
+                    fprintf(flin,"%d\n",line);
+                }
                 else if(isalnum(c) && i == 15){
                     while(!is_blank(c) && !isoperator(c)){
                         ulex[i] = c;
@@ -155,10 +139,8 @@ int main(int argc, char **argv){
                 }
                 else{
                     fprintf(flex,"[id]\n");
-                    if(!search(sim.IDS,ulex)){
-                        sim.IDS[sim.idscont] = strdup(ulex);
-                        sim.idscont++;
-                    }
+                    fprintf(flin,"%d\n",line);
+                    pushtable(&ids,ulex);
                 }
                     
                 break;
@@ -191,10 +173,8 @@ int main(int argc, char **argv){
                 }
                 else{
                     fprintf(flex,"[txt]\n");
-                    if(!search(sim.TXT,ulex)){
-                        sim.TXT[sim.txtcont] = strdup(ulex);
-                        sim.txtcont++;
-                    }
+                    fprintf(flin,"%d\n",linestr);
+                    pushtable(&txt,ulex);
                 }
                 break;
             
@@ -213,12 +193,14 @@ int main(int argc, char **argv){
             
             case 6:
                 fprintf(flex,"[op_ar]\n");
+                fprintf(flin,"%d\n",line);
                 c = fgetc(fsrc);
                     
                 break;
             
             case 7:
                 fprintf(flex,"[op_rel]\n");
+                fprintf(flin,"%d\n",line);
                 c = fgetc(fsrc);
                 
                 break;
@@ -227,10 +209,13 @@ int main(int argc, char **argv){
                 c = fgetc(fsrc);
                 if(c == '='){
                     fprintf(flex,"[op_rel]\n");
+                    fprintf(flin,"%d\n",line);
                     c = fgetc(fsrc);
                 }
-                else
+                else{
                    fprintf(flex,"=\n");
+                   fprintf(flin,"%d\n",line);
+                }
                     
                 break;
             
@@ -246,32 +231,31 @@ int main(int argc, char **argv){
         }
     }
     fprintf(flex,"$\n");
+    fprintf(flin,"%d\n",line-1);
     
     fclose(fsrc);    
+    fclose(flin);
     fclose(flex);
-    
+
     fprintf(fsim,"IDS\n");
-    for(i = 0; sim.IDS[i]; i++){
-        fprintf(fsim,"%s, ID%.2d \n",sim.IDS[i],i);
-        free(sim.IDS[i]);
-    }
+    for(i = 0; i < ids.sp; i++)
+        fprintf(fsim,"%s, ID%.2d \n",ids.stack[i],i);
    
     fprintf(fsim,"\nTXT\n");
-    for(i = 0; sim.TXT[i]; i++){
-        fprintf(fsim,"%s, TX%.2d \n",sim.TXT[i],i);
-        free(sim.TXT[i]);
-    }
+    for(i = 0; i < txt.sp; i++)
+        fprintf(fsim,"%s, TX%.2d \n",txt.stack[i],i);
 
     fprintf(fsim,"\nVAL\n");
-    for(i = 0; sim.VAL[i]; i++){
-        fprintf(fsim,"%s, %d \n",sim.VAL[i],(int)strtol(sim.VAL[i], NULL, 0));
-        free(sim.VAL[i]);
-    }
+    for(i = 0; i < val.sp; i++)
+        fprintf(fsim,"%s, %d \n",val.stack[i],(int)strtol(val.stack[i],NULL,0));
     
+    freePila(&ids);
+    freePila(&val);
+    freePila(&txt);
     fclose(fsim);
     
     if(err)
-       printf("\nTokenizing failure.\n\n");
+        printf("\nTokenizing failure.\n\n");
     else
         printf("\nSuccesful tokenizing.\n\n");
     

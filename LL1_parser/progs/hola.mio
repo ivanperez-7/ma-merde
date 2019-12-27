@@ -1,0 +1,15 @@
+PROGRAMA hola
+
+IMPRIME "Hola???"
+
+LEE x
+
+SI x == 0x0 ENTONCES
+    IMPRIME "HOLAAAAAAA"
+SINO
+    IMPRIME "adios"         # ejemplo de un comentario jajajajaja esto no lo lee el compilador
+FINSI
+
+IMPRIME "Linea 12 del programa"
+
+FINPROG
