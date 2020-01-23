@@ -7,8 +7,24 @@ public class automovil{
         color = ncolor;
     }
     
+    public void establecerllantas(int nllantas){
+        llantas = nllantas;
+    }
+
+    public void establecercilindros(int ncilindros){
+        cilindros = ncilindros;
+    }
+
     public String obtenercolor(){
         return color;
+    }
+
+    public int obtenerllantas(){
+        return llantas;
+    }
+
+    public int obtenercilindros(){
+        return cilindros;
     }
     
     public void acelerar(int velocidad){

@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
 public class Crearauto{
-    public static void main(){
+    public static void main(String[] args){
         automovil trax = new automovil();
         int velocidad;
         String col;
