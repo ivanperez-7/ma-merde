@@ -3,16 +3,28 @@ public class automovil{
     private int llantas;
     private int cilindros;
     
-    public void establecercolor(String ncolor){
-        color = ncolor;
-    }
-    
-    public void establecerllantas(int nllantas){
-        llantas = nllantas;
+    public automovil(String color, int llantas, int cilindros){
+        establecercolor(color);
+        establecerllantas(llantas);
+        establecercilindros(cilindros);
     }
 
-    public void establecercilindros(int ncilindros){
-        cilindros = ncilindros;
+    public void establecercolor(String color){
+        this.color = color;
+    }
+    
+    public void establecerllantas(int llantas){
+        if(llantas <= 0)
+            this.llantas = 2;
+        else
+            this.llantas = llantas;
+    }
+
+    public void establecercilindros(int cilindros){
+        if(cilindros <= 0)
+            this.cilindros = 4;
+        else
+            this.cilindros = cilindros;
     }
 
     public String obtenercolor(){
@@ -29,5 +41,9 @@ public class automovil{
     
     public void acelerar(int velocidad){
         System.out.println("Acelerando auto a " + velocidad + " km/h \n");
+    }
+
+    public String toString(){
+        return "Color: " + obtenercolor() + "\t Llantas: " + obtenerllantas() + "\t Cilindros: " + obtenercilindros() + "\n";
     }
 }
