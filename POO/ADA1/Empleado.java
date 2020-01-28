@@ -3,14 +3,14 @@ public class Empleado{
     private String nombre;
     private String apellidoP;
     private String apellidoM;
-    Fecha nacimiento;
+    private Fecha nacimiento;
 
-    public Empleado(String nEmpleado, String nombre, String apellidoP, String apellidoM, int dia, int mes, int anio){
+    public Empleado(String nEmpleado, String nombre, String apellidoP, String apellidoM, Fecha nacimiento){
         this.nEmpleado = nEmpleado;
         this.nombre = nombre;
         this.apellidoP = apellidoP;
         this.apellidoM = apellidoM;
-        nacimiento = new Fecha(dia,mes,anio);
+        this.nacimiento = nacimiento;
     }
 
     public String getNombre(){

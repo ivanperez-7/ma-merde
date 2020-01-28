@@ -14,12 +14,14 @@ public class programa{
         int cantidad = leerInt.nextInt();
         System.out.println("Precio por pieza: ");
         double precio = leerDouble.nextDouble();
+
         System.out.println("Dia de venta: ");
         int dia = leerInt.nextInt();
         System.out.println("Mes de venta: ");
         int mes = leerInt.nextInt();
         System.out.println("Año de venta: ");
         int anio = leerInt.nextInt();
+        Fecha fechaventa = new Fecha(dia,mes,anio);
 
         System.out.println("\n==========\nVendedor\n==========\nClave de empleado: ");
         String nEmpleado = leerStr.nextLine();
@@ -35,8 +37,10 @@ public class programa{
         int mesn = leerInt.nextInt();
         System.out.println("Año de nacimiento: ");
         int anion = leerInt.nextInt();
+        Fecha nacimiento = new Fecha(dian,mesn,anion);
+        Empleado vendedor = new Empleado(nEmpleado,nombre,AP,AM,nacimiento);
 
-        Factura camas = new Factura(nFactura,nPieza,descripcion,cantidad,precio,dia,mes,anio,nEmpleado,nombre,AP,AM,dian,mesn,anion);
+        Factura camas = new Factura(nFactura,nPieza,descripcion,cantidad,precio,fechaventa,vendedor);
 
         System.out.println("\n-------------------------------------\n"+camas);
     }
