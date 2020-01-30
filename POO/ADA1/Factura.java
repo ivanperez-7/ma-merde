@@ -5,15 +5,15 @@ public class Factura{
     private int cantidad;
     private double precio;
     private Empleado vendedor;
-    private Fecha venta;
+    private Fecha fecha;
 
-    public Factura(int nFactura, int nPieza, String descripcion, int cantidad, double precio, Fecha venta, Empleado vendedor){
+    public Factura(int nFactura, int nPieza, String descripcion, int cantidad, double precio, Fecha fecha, Empleado vendedor){
         this.nFactura = nFactura;
         this.nPieza = nPieza;
         this.descripcion = descripcion;
         setCantidad(cantidad);
         setPrecio(precio);
-        this.venta = venta;
+        this.fecha = fecha;
         this.vendedor = vendedor;
     }
 
@@ -56,6 +56,6 @@ public class Factura{
     }
 
     public String toString(){
-        return "Factura: " + getNumero() + "\n\nNúmero de pieza: " + getPieza() + "\nDescripción: " + getDescripcion() + "\nCantidad: " + getCantidad() + "\nPrecio por pieza: $" + getPrecio() + "\nVendedor: " + vendedor.toString() + "\nFecha de la venta: " + venta.toString() + "\n\n\tMonto total: $" + obtenerMontoFactura();
+        return "Factura: " + getNumero() + "\n\nNúmero de pieza: " + getPieza() + "\nDescripción: " + getDescripcion() + "\nCantidad: " + getCantidad() + "\nPrecio por pieza: $" + getPrecio() + "\nVendedor: " + vendedor.toString() + "\nFecha de la fecha: " + fecha.toString() + "\n\n\tMonto total: $" + obtenerMontoFactura();
     }
 }

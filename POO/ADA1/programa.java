@@ -40,8 +40,8 @@ public class programa{
         Fecha nacimiento = new Fecha(dian,mesn,anion);
         Empleado vendedor = new Empleado(nEmpleado,nombre,AP,AM,nacimiento);
 
-        Factura camas = new Factura(nFactura,nPieza,descripcion,cantidad,precio,fechaventa,vendedor);
+        Factura ejemplo = new Factura(nFactura,nPieza,descripcion,cantidad,precio,fechaventa,vendedor);
 
-        System.out.println("\n-------------------------------------\n"+camas);
+        System.out.println("\n-------------------------------------\n"+ejemplo);
     }
 }

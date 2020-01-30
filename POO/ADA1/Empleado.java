@@ -1,16 +1,20 @@
 public class Empleado{
-    private String nEmpleado;
+    private String clave;
     private String nombre;
     private String apellidoP;
     private String apellidoM;
     private Fecha nacimiento;
 
-    public Empleado(String nEmpleado, String nombre, String apellidoP, String apellidoM, Fecha nacimiento){
-        this.nEmpleado = nEmpleado;
+    public Empleado(String clave, String nombre, String apellidoP, String apellidoM, Fecha nacimiento){
+        this.clave = clave;
         this.nombre = nombre;
         this.apellidoP = apellidoP;
         this.apellidoM = apellidoM;
         this.nacimiento = nacimiento;
+    }
+
+    public String getClave(){
+        return clave;
     }
 
     public String getNombre(){
