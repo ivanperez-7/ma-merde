@@ -28,7 +28,7 @@ public class Factura{
         if(precio <= 0.0)
             this.precio = 0;
         else
-            this.precio = 0;
+            this.precio = precio;
     }
 
     public int getNumero(){
