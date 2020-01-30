@@ -3,7 +3,7 @@ public class Empleado{
     private String nombre;
     private String apellidoP;
     private String apellidoM;
-    private Fecha nacimiento;
+    public Fecha nacimiento;
 
     public Empleado(String clave, String nombre, String apellidoP, String apellidoM, Fecha nacimiento){
         this.clave = clave;

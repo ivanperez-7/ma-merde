@@ -4,8 +4,8 @@ public class Factura{
     private String descripcion;
     private int cantidad;
     private double precio;
-    private Empleado vendedor;
-    private Fecha fecha;
+    public Empleado vendedor;
+    public Fecha fecha;
 
     public Factura(int nFactura, int nPieza, String descripcion, int cantidad, double precio, Fecha fecha, Empleado vendedor){
         this.nFactura = nFactura;
