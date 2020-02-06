@@ -6,7 +6,11 @@ public class Horario{
     private int minutotermina;
 
     public Horario(String dias, int horainicio, int minutoinicio, int horatermina, int minutotermina){
-    
+        this.dias = dias;
+        this.horainicio = horainicio;
+        this.minutoinicio = minutoinicio;
+        this.horatermina = horatermina;
+        this.minutotermina = minutotermina;
     }
 
     public void setHoraInicio(int horainicio){
@@ -43,5 +47,25 @@ public class Horario{
             this.minutotermina = 59;
         else
             this.minutotermina = minutotermina;
+    }
+
+    public String getDias(){
+        return dias;
+    }
+
+    public int getHoraInicio(){
+        return horainicio;
+    }
+
+    public int getMinutoInicio(){
+        return minutoinicio;
+    }
+
+    public int getHoraTermina(){
+        return horatermina;
+    }
+
+    public int getMinutoTermina(){
+        return minutotermina;
     }
 }

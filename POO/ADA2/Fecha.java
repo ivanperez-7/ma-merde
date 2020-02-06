@@ -4,9 +4,9 @@ public class Fecha{
     private int anio;
 
     public Fecha(int dia, int mes, int anio){
-        setDia(dia);
-        setMes(mes);
         setAnio(anio);
+        setMes(mes);
+        setDia(dia);
     }
 
     public void setDia(int dia){
