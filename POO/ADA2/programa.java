@@ -6,7 +6,7 @@ public class programa{
         char flag;
         Scanner leerStr = new Scanner(System.in), leerInt = new Scanner(System.in), leerChar = new Scanner(System.in);
         ArrayList<Empleado> empleadolist = new ArrayList<Empleado>();
-
+	
         System.out.println("\t\t\t\t\tSistema de recursos humanos");
         do{
             System.out.printf("Clave del Empleado: ");
@@ -67,21 +67,21 @@ public class programa{
         } while(flag != 'N' && flag != 'n');
 
         System.out.println("\n\t\t\t\t\tListado de empleados registrados");
-        System.out.printf("%-14s %-14s %-14s %-14s %-14s %-14s %-14s\n","Clave","Nombre","A. Materno","A. Paterno","Fecha de nacimiento","Fecha de ingreso","Departamento");
-	System.out.println("==============================================================================================================");
+        System.out.printf("%-14s %-14s %-14s %-14s %-19s   %-19s %-14s\n","Clave","Nombre","A. Materno","A. Paterno","Fecha de nacimiento","Fecha de ingreso","Departamento");
+	System.out.println("====================================================================================================================");
 
         for(int i = 0; i < empleadolist.size(); i++){
             Empleado emp = empleadolist.get(i);
-            System.out.printf("%-14s %-14s %-14s %-14s %-14s %-14s %-14s\n",emp.getClave(),emp.getNombre(),emp.getApellidoPaterno(),emp.getApellidoMaterno(),emp.nacimiento,emp.ingreso,emp.depto.getNombre());
+            System.out.printf("%-14s %-14s %-14s %-14s %-19s   %-19s %-14s\n",emp.getClave(),emp.getNombre(),emp.getApellidoPaterno(),emp.getApellidoMaterno(),emp.nacimiento,emp.ingreso,emp.depto.getNombre());
 
             int j = 0; Horario hora;
             for(; j < emp.getSizeHorario()-1; j++){
                 hora = emp.getHorario(j);
-                System.out.printf("%s %d:%d - %d:%d, ",hora.getDias(),hora.getHoraInicio(),hora.getMinutoInicio(),hora.getHoraTermina(),hora.getMinutoTermina());
+                System.out.printf("%s %d:%02d - %d:%02d, ",hora.getDias(),hora.getHoraInicio(),hora.getMinutoInicio(),hora.getHoraTermina(),hora.getMinutoTermina());
             }
             hora = emp.getHorario(j);
-            System.out.printf("%s %d:%d - %d:%d\n",hora.getDias(),hora.getHoraInicio(),hora.getMinutoInicio(),hora.getHoraTermina(),hora.getMinutoTermina());
-	    System.out.println("==============================================================================================================");
+            System.out.printf("%s %d:%02d - %d:%02d\n",hora.getDias(),hora.getHoraInicio(),hora.getMinutoInicio(),hora.getHoraTermina(),hora.getMinutoTermina());
+	    System.out.println("====================================================================================================================");
         }
     }
 }
