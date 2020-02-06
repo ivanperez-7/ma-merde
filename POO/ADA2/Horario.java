@@ -34,8 +34,8 @@ public class Horario{
     public void setHoraTermina(int horatermina){
         if(horatermina < 0)
             this.horatermina = 0;
-        else if(horatermina > 24)
-            this.horatermina = 24;
+        else if(horatermina > 23)
+            this.horatermina = 23;
         else
             this.horatermina = horatermina;
     }
