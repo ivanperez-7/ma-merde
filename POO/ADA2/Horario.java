@@ -1,52 +1,52 @@
 public class Horario{
     private String dias;
-    private int horainicio;
-    private int minutoinicio;
-    private int horatermina;
-    private int minutotermina;
+    private int horaInicio;
+    private int minutoInicio;
+    private int horaTermina;
+    private int minutoTermina;
 
-    public Horario(String dias, int horainicio, int minutoinicio, int horatermina, int minutotermina){
+    public Horario(String dias, int horaInicio, int minutoInicio, int horaTermina, int minutoTermina){
         this.dias = dias;
-        setHoraInicio(horainicio);
-        setMinutoInicio(minutoinicio);
-        setHoraTermina(horatermina);
-        setMinutoTermina(minutotermina);
+        setHoraInicio(horaInicio);
+        setMinutoInicio(minutoInicio);
+        setHoraTermina(horaTermina);
+        setMinutoTermina(minutoTermina);
     }
 
-    public void setHoraInicio(int horainicio){
-        if(horainicio < 0)
-            this.horainicio = 0;
-        else if(horainicio > 23)
-            this.horainicio = 23;
+    public void setHoraInicio(int horaInicio){
+        if(horaInicio < 0)
+            this.horaInicio = 0;
+        else if(horaInicio > 23)
+            this.horaInicio = 23;
         else
-            this.horainicio = horainicio;
+            this.horaInicio = horaInicio;
     }
 
-    public void setMinutoInicio(int minutoinicio){
-        if(minutoinicio < 0)
-            this.minutoinicio = 0;
-        else if(minutoinicio >= 60)
-            this.minutoinicio = 59;
+    public void setMinutoInicio(int minutoInicio){
+        if(minutoInicio < 0)
+            this.minutoInicio = 0;
+        else if(minutoInicio >= 60)
+            this.minutoInicio = 59;
         else
-            this.minutoinicio = minutoinicio;
+            this.minutoInicio = minutoInicio;
     }
 
-    public void setHoraTermina(int horatermina){
-        if(horatermina < 0)
-            this.horatermina = 0;
-        else if(horatermina > 23)
-            this.horatermina = 23;
+    public void setHoraTermina(int horaTermina){
+        if(horaTermina < 0)
+            this.horaTermina = 0;
+        else if(horaTermina > 23)
+            this.horaTermina = 23;
         else
-            this.horatermina = horatermina;
+            this.horaTermina = horaTermina;
     }
 
-    public void setMinutoTermina(int minutotermina){
-        if(minutotermina < 0)
-            this.minutotermina = 0;
-        else if(minutotermina >= 60)
-            this.minutotermina = 59;
+    public void setMinutoTermina(int minutoTermina){
+        if(minutoTermina < 0)
+            this.minutoTermina = 0;
+        else if(minutoTermina >= 60)
+            this.minutoTermina = 59;
         else
-            this.minutotermina = minutotermina;
+            this.minutoTermina = minutoTermina;
     }
 
     public String getDias(){
@@ -54,18 +54,18 @@ public class Horario{
     }
 
     public int getHoraInicio(){
-        return horainicio;
+        return horaInicio;
     }
 
     public int getMinutoInicio(){
-        return minutoinicio;
+        return minutoInicio;
     }
 
     public int getHoraTermina(){
-        return horatermina;
+        return horaTermina;
     }
 
     public int getMinutoTermina(){
-        return minutotermina;
+        return minutoTermina;
     }
 }
