@@ -7,17 +7,17 @@ public class Horario{
 
     public Horario(String dias, int horainicio, int minutoinicio, int horatermina, int minutotermina){
         this.dias = dias;
-        this.horainicio = horainicio;
-        this.minutoinicio = minutoinicio;
-        this.horatermina = horatermina;
-        this.minutotermina = minutotermina;
+        setHoraInicio(horainicio);
+        setMinutoInicio(minutoinicio);
+        setHoraTermina(horatermina);
+        setMinutoTermina(minutotermina);
     }
 
     public void setHoraInicio(int horainicio){
         if(horainicio < 0)
             this.horainicio = 0;
-        else if(horainicio > 24)
-            this.horainicio = 24;
+        else if(horainicio > 23)
+            this.horainicio = 23;
         else
             this.horainicio = horainicio;
     }

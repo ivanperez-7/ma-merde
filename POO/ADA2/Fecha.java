@@ -9,11 +9,31 @@ public class Fecha{
         setDia(dia);
     }
 
+    public boolean isLeap(int year){
+        if((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
+            return true;
+        else
+            return false;
+    }
+
     public void setDia(int dia){
-        if(dia < 1)
+        int lim;
+        
+        if(dia < 1){
             this.dia = 1;
-        else if(dia > 31)
-            this.dia = 31;
+            return ;
+        }
+        if(mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12)
+            lim = 31;
+        else if(mes == 4 || mes == 6 || mes == 9 || mes == 11)
+            lim = 30;
+        else if(isLeap(getAnio()))
+            lim = 29;
+        else
+            lim = 28;
+
+        if(dia > lim)
+            this.dia = lim;
         else
             this.dia = dia;
     }
