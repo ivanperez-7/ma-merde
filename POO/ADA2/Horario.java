@@ -1,9 +1,12 @@
+import java.util.Formatter;
+
 public class Horario{
     private String dias;
     private int horaInicio;
     private int minutoInicio;
     private int horaTermina;
     private int minutoTermina;
+    private Formatter f = new Formatter();
 
     public Horario(String dias, int horaInicio, int minutoInicio, int horaTermina, int minutoTermina){
         this.dias = dias;
@@ -67,5 +70,9 @@ public class Horario{
 
     public int getMinutoTermina(){
         return minutoTermina;
+    }
+
+    public String toString(){
+        return getDias() + " " + getHoraInicio() + ":" + f.format("%d",getMinutoInicio()) + " - " + getHoraTermina() + ":" + f.format("%d",getMinutoTermina());
     }
 }

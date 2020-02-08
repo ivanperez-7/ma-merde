@@ -77,10 +77,10 @@ public class programa{
             int j = 0; Horario hora;
             for(; j < emp.getSizeHorario()-1; j++){
                 hora = emp.getHorario(j);
-                System.out.printf("%s %d:%02d - %d:%02d, ",hora.getDias(),hora.getHoraInicio(),hora.getMinutoInicio(),hora.getHoraTermina(),hora.getMinutoTermina());
+                System.out.printf("%s, ",hora);
             }
             hora = emp.getHorario(j);
-            System.out.printf("%s %d:%02d - %d:%02d\n",hora.getDias(),hora.getHoraInicio(),hora.getMinutoInicio(),hora.getHoraTermina(),hora.getMinutoTermina());
+            System.out.printf("%s\n",hora);
 	    System.out.println("====================================================================================================================");
         }
     }
