@@ -9,7 +9,7 @@ public class Fecha{
         setDia(dia);
     }
 
-    public boolean isLeap(int year){
+    public boolean esBisiesto(int year){
         return ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0));
     }
 
@@ -20,11 +20,11 @@ public class Fecha{
             this.dia = 1;
             return ;
         }
-        if(mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12)
+        if(getMes() == 1 || getMes() == 3 || getMes() == 5 || getMes() == 7 || getMes() == 8 || getMes() == 10 || getMes() == 12)
             lim = 31;
-        else if(mes == 4 || mes == 6 || mes == 9 || mes == 11)
+        else if(getMes() == 4 || getMes() == 6 || getMes() == 9 || getMes() == 11)
             lim = 30;
-        else if(isLeap(getAnio()))
+        else if(esBisiesto(getAnio()))
             lim = 29;
         else
             lim = 28;
