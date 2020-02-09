@@ -6,7 +6,7 @@ public class Horario{
     private int minutoInicio;
     private int horaTermina;
     private int minutoTermina;
-    private Formatter f = new Formatter();
+    private Formatter f = new Formatter(), g = new Formatter();
 
     public Horario(String dias, int horaInicio, int minutoInicio, int horaTermina, int minutoTermina){
         this.dias = dias;
@@ -73,6 +73,6 @@ public class Horario{
     }
 
     public String toString(){
-        return getDias() + " " + getHoraInicio() + ":" + f.format("%d",getMinutoInicio()) + " - " + getHoraTermina() + ":" + f.format("%d",getMinutoTermina());
+        return getDias() + " " + getHoraInicio() + ":" + f.format("%02d",getMinutoInicio()) + " - " + getHoraTermina() + ":" + g.format("%02d",getMinutoTermina());
     }
 }
