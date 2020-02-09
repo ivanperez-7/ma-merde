@@ -60,14 +60,14 @@ public class programa{
                 do { flag = leerChar.next().charAt(0); } while(flag != 'N' && flag != 'n' && flag != 'S' && flag != 's');
             } while(flag != 'N' && flag != 'n');
 
-            Empleado empleado = new Empleado(clave,nombre,apellidoMaterno,apellidoPaterno,nacimiento,ingreso,depto,horariolist);
+            Empleado empleado = new Empleado(clave,nombre,apellidoPaterno,apellidoMaterno,nacimiento,ingreso,depto,horariolist);
             empleadolist.add(empleado);
             System.out.printf("\nDesea capturar otro empleado? (S/N): ");
             do { flag = leerChar.next().charAt(0); } while(flag != 'N' && flag != 'n' && flag != 'S' && flag != 's');
         } while(flag != 'N' && flag != 'n');
 
         System.out.println("\n\t\t\t\t\tListado de empleados registrados");
-        System.out.printf("%-14s %-14s %-14s %-14s %-19s   %-19s %-14s\n","Clave","Nombre","A. Materno","A. Paterno","Fecha de nacimiento","Fecha de ingreso","Departamento");
+        System.out.printf("%-14s %-14s %-14s %-14s %-19s   %-19s %-14s\n","Clave","Nombre","A. Paterno","A. Materno","Fecha de nacimiento","Fecha de ingreso","Departamento");
 	System.out.println("====================================================================================================================");
 
         for(int i = 0; i < empleadolist.size(); i++){
