@@ -1,3 +1,5 @@
+package Modelo;
+
 public class EmpleadoPorComision{
     private String numSeguroSocial;
     private String nombre;
@@ -23,7 +25,7 @@ public class EmpleadoPorComision{
         return nombre;
     }
 
-    public String getApellidoMaterno(){
+    public String getApellidoPaterno(){
         return apellidoPaterno;
     }
 
@@ -40,6 +42,6 @@ public class EmpleadoPorComision{
     }
 
     public double ingreso(){
-        return getTarifaComision * getVentasBrutas();
+        return getTarifaComision() * getVentasBrutas();
     }
 }
