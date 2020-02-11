@@ -30,18 +30,18 @@ public class Cuadrilatero{
     }
 
     public double lado1(){
-        return Math.abs(getP1().getX() - getP1().getY());
+        return Math.sqrt(Math.pow(getP1().getX() - getP2().getX(),2) + Math.pow(getP1().getY() - getP2().getY(),2));
     }
 
     public double lado2(){
-        return Math.abs(getP2().getX() - getP2().getY());
+        return Math.sqrt(Math.pow(getP2().getX() - getP3().getX(),2) + Math.pow(getP2().getY() - getP3().getY(),2));
     }
 
     public double lado3(){
-        return Math.abs(getP3().getX() - getP3().getY());
+        return Math.sqrt(Math.pow(getP3().getX() - getP4().getX(),2) + Math.pow(getP3().getY() - getP4().getY(),2));
     }
 
     public double lado4(){
-        return Math.abs(getP4().getX() - getP4().getY());
+        return Math.sqrt(Math.pow(getP4().getX() - getP1().getX(),2) + Math.pow(getP4().getY() - getP1().getY(),2));
     }
 }

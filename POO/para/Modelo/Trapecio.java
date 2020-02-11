@@ -7,4 +7,8 @@ public class Trapecio extends Cuadrilatero{
         super(p1x, p1y, p2x, p2y, p3x, p3y, p4x, p4y);
         this.altura = altura;
     }
+
+    public double area(){
+        return (altura*(lado2()+lado4()))/2;       
+    }
 }
