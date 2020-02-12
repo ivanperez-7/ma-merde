@@ -5,12 +5,21 @@ public class Cuadrilatero{
     private Coordenada p2;
     private Coordenada p3;
     private Coordenada p4;
+    private double altura;
 
     public Cuadrilatero(double p1x, double p1y, double p2x, double p2y, double p3x, double p3y, double p4x, double p4y){
         p1 = new Coordenada(p1x,p1y);
         p2 = new Coordenada(p2x,p2y);
         p3 = new Coordenada(p3x,p3y);
         p4 = new Coordenada(p4x,p4y);
+    }
+
+    public void setAltura(double altura){
+        this.altura = altura;
+    }
+
+    public double getAltura(){
+        return altura;
     }
 
     public Coordenada getP1(){
