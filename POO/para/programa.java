@@ -10,24 +10,20 @@ public class programa{
         do {op = leerChar.next().charAt(0);} while(op != '1' && op != '2' && op != '3' && op != '4');
         System.out.printf("\nIngrese los puntos en el siguiente orden:\n\tp1 ----- p4\n\t   |   |\n\t   |   |\n\tp2 ----- p3\n\n");
 
-        System.out.printf("Absisa de p1: ");
+        System.out.printf("Ingrese (x,y) = p1: ");
         double p1x = leerDouble.nextDouble();
-        System.out.printf("Ordenada de p1: ");
         double p1y = leerDouble.nextDouble();
 
-        System.out.printf("Absisa de p2: ");
+        System.out.printf("Ingrese (x,y) = p2: ");
         double p2x = leerDouble.nextDouble();
-        System.out.printf("Ordenada de p2: ");
         double p2y = leerDouble.nextDouble();
 
-        System.out.printf("Absisa de p3: ");
+        System.out.printf("Ingrese (x,y) = p3: ");
         double p3x = leerDouble.nextDouble();
-        System.out.printf("Ordenada de p3: ");
         double p3y = leerDouble.nextDouble();
 
-        System.out.printf("Absisa de p4: ");
+        System.out.printf("Ingrese (x,y) = p4: ");
         double p4x = leerDouble.nextDouble();
-        System.out.printf("Ordenada de p4: ");
         double p4y = leerDouble.nextDouble();
 
         System.out.printf("\nArea de la figura: ");
