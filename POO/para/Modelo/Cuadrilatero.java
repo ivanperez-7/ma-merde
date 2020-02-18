@@ -1,6 +1,6 @@
 package Modelo;
 
-public class Cuadrilatero{
+public abstract class Cuadrilatero{
     public Coordenada p1;
     public Coordenada p2;
     public Coordenada p3;
@@ -21,6 +21,8 @@ public class Cuadrilatero{
     public double getAltura(){
         return altura;
     }
+
+    public abstract double area();
 
     public double lado1(){
         return Math.sqrt(Math.pow(p1.getX() - p2.getX(),2) + Math.pow(p1.getY() - p2.getY(),2));
