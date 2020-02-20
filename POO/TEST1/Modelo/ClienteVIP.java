@@ -7,7 +7,7 @@ public class ClienteVIP extends Cliente{
         super(clave, nombre, ingreso);
         setCostoDiario(costoDiario);
         super.setTipoCliente("Cliente VIP");
-        super.setPago(costoDiario);
+        super.setPagoPorDia(costoDiario);
     }
 
     public double getCostoDiario(){

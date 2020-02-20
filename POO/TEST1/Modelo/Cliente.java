@@ -5,7 +5,7 @@ public class Cliente{
     private String nombre;
     public Fecha fechaIngreso;
     private String tipoCliente;
-    private double pagoDia;
+    private double pagoPorDia;
 
     public Cliente(String clave, String nombre, Fecha fechaIngreso){
         this.clave = clave;
@@ -29,8 +29,8 @@ public class Cliente{
         this.tipoCliente = tipoCliente;
     }
 
-    public void setPago(double pagoDia){
-        this.pagoDia = pagoDia;
+    public void setPagoPorDia(double pagoPorDia){
+        this.pagoPorDia = pagoPorDia;
     }
    
     public String getClave(){
@@ -45,7 +45,7 @@ public class Cliente{
         return tipoCliente;
     }
 
-    public double getPagoDia(){
-        return pagoDia;
+    public double getPagoPorDia(){
+        return pagoPorDia;
     }
 }

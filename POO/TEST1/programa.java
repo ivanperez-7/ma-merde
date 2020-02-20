@@ -46,10 +46,12 @@ public class programa{
             do {flag = leerChar.next().charAt(0);} while(flag != 's' && flag != 'S' && flag != 'n' && flag != 'N');
         } while(flag != 'n' && flag != 'N');
 
-        System.out.printf("\n%-7s %-14s %-15s      %-10s     %s\n","Clave","Nombre","Tipo de Cliente","Fecha de ingreso","Pago por dia");
+        System.out.printf("\n%-7s %-25s %-22s %-20s %s\n","Clave","Nombre","Tipo de Cliente","Fecha de ingreso","Pago por dia");
+        System.out.println("==========================================================================================");
+
         for(int i = 0; i < listaClientes.size(); i++){
             Cliente cliente = listaClientes.get(i);
-            System.out.printf("%-7s %-14s %-10s   %-10s           %s\n",cliente.getClave(),cliente.getNombre(),cliente.getTipoCliente(),cliente.fechaIngreso,cliente.getPagoDia());
+            System.out.printf("%-7s %-25s %-22s %-20s %s\n",cliente.getClave(),cliente.getNombre(),cliente.getTipoCliente(),cliente.fechaIngreso,cliente.getPagoPorDia());
         }
     }
 }

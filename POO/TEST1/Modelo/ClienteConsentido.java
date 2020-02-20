@@ -9,7 +9,7 @@ public class ClienteConsentido extends Cliente{
         setRentasPorDia(rentasPorDia);
         setPrecioPorRenta(precioPorRenta);
         super.setTipoCliente("Cliente Consentido");
-        super.setPago(rentasPorDia * precioPorRenta);
+        super.setPagoPorDia(rentasPorDia * precioPorRenta);
     }
 
     public void setRentasPorDia(int rentasPorDia){
