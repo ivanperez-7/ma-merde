@@ -1,3 +1,5 @@
+import math
+
 def add(A,B):
     m = len(A)
     C = [[0 for i in range(m)] for i in range(m)]
@@ -71,8 +73,10 @@ def printmat(A):
         print(A[i])
 
 m = int(input("Dimension de la matriz: "))
-A = [[0 for i in range(m)] for i in range(m)]
-B = [[0 for i in range(m)] for i in range(m)]
+m2 = int(math.pow(2,math.ceil(math.log(m,2)))) 
+
+A = [[0 for i in range(m2)] for i in range(m2)]
+B = [[0 for i in range(m2)] for i in range(m2)]
 
 for i in range(m):
     for j in range(m):
