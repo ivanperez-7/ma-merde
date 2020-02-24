@@ -73,6 +73,10 @@ def printmat(A):
         print(A[i])
 
 m = int(input("Dimension de la matriz: "))
+
+if m <= 0:
+    exit()
+
 m2 = int(math.pow(2,math.ceil(math.log(m,2)))) 
 
 A = [[0 for i in range(m2)] for i in range(m2)]
