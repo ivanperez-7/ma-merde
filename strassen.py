@@ -36,7 +36,7 @@ def Strassen(A,B):
         C = [[A[0][0] * B[0][0]]]
         return C
 
-    m = l / 2
+    m = l // 2
     A11 = submatrix(A, 0, 0, m)
     A12 = submatrix(A, 0, m, m)
     A21 = submatrix(A, m, 0, m)
@@ -69,8 +69,23 @@ def Strassen(A,B):
     return C
 
 def printmat(A):
-    for i in range(len(A)):
-        print(A[i])
+    r = len(A)
+    c = len(A[0])
+    
+    spaces = [0 for i in range(c)]
+    for i in range(c):
+        spaces[i] = -1
+        for j in range(r):
+            if len(str(A[j][i])) > spaces[i]:
+                spaces[i] = len(str(A[j][i]))
+    
+    for i in range(r):
+        print("[",end='')
+        for j in range(c):
+            print(" " * (spaces[j] - len(str(A[i][j]))) + "%d"%(A[i][j]),end='')
+            if j != c-1:
+                print(" ",end='')
+        print("]")
 
 m = int(input("Dimension de la matriz: "))
 
