@@ -10,6 +10,11 @@ public class programa{
         listaAnimales.add(new Serpiente("Haag",10,3.0));
 
         for(int i = 0; i < listaAnimales.size(); i++){
+            if(listaAnimales.get(i) instanceof Conejo){
+                Conejo unconejo = (Conejo) listaAnimales.get(i);
+                unconejo.setAlturaBrinco(unconejo.getAlturaBrinco()*2);
+            } 
+
             System.out.println(listaAnimales.get(i));
             System.out.println("Se mueve: " + listaAnimales.get(i).mover());
         }
