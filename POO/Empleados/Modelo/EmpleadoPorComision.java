@@ -28,7 +28,7 @@ public class EmpleadoPorComision extends Empleado{
         return tarifaComision;
     }
 
-    public double ventasBrutas(){
+    public double getVentasBrutas(){
         return ventasBrutas;
     }
 

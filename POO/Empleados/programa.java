@@ -6,6 +6,7 @@ public class programa{
     public static void main(String[] args){
         char opcion, flag = 0;
         String nombre, NSS;
+        double tarifaComision, ventasBrutas;
         Scanner leerChar = new Scanner(System.in), leerInt = new Scanner(System.in), leerDouble = new Scanner(System.in), leerStr = new Scanner(System.in);
         ArrayList<Empleado> listaEmpleado = new ArrayList<Empleado>();
 
@@ -50,11 +51,11 @@ public class programa{
                     System.out.printf("\tNumero de seguro social: ");
                     NSS = leerStr.nextLine();
                     System.out.printf("\tTarifa de comisión: ");
-                    double tarifaComision = leerDouble.nextDouble();
+                    tarifaComision = leerDouble.nextDouble();
                     System.out.printf("\tVentas brutas: ");
-                    double ventasBrutas = leerDouble.nextDouble();
+                    ventasBrutas = leerDouble.nextDouble();
 
-                    listaEmpleado.add(new EmpleadoPorHoras(nombre,NSS,tarifaComision,ventasBrutas));
+                    listaEmpleado.add(new EmpleadoPorComision(nombre,NSS,tarifaComision,ventasBrutas));
                     break;
 
                 case '4':
@@ -65,18 +66,22 @@ public class programa{
                     System.out.printf("\tNumero de seguro social: ");
                     NSS = leerStr.nextLine();
                     System.out.printf("\tTarifa de comisión: ");
-                    double tarifaComision = leerDouble.nextDouble();
+                    tarifaComision = leerDouble.nextDouble();
                     System.out.printf("\tVentas brutas: ");
-                    double ventasBrutas = leerDouble.nextDouble();
+                    ventasBrutas = leerDouble.nextDouble();
                     System.out.printf("\tSalario base: ");
                     double salarioBase = leerDouble.nextDouble();
 
-                    listaEmpleado.add(new EmpleadoPorHoras(nombre,NSS,tarifaComision,ventasBrutas,salarioBase));
+                    listaEmpleado.add(new EmpleadoBaseMasComision(nombre,NSS,tarifaComision,ventasBrutas,salarioBase));
                     break;
 
                 default:
                     ;
             }
+
+            System.out.printf("\nEmpleado registrado.\nDesea capturar otro empleado? (S/N): ");
+            do {flag = leerChar.next().charAt(0);} while(flag != 's' && flag != 'S' && flag != 'n' && flag != 'N');
+            System.out.println("");
         } while(flag != 'n' && flag != 'N');
     }
 }
