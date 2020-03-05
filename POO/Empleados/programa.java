@@ -84,8 +84,13 @@ public class programa{
             System.out.println("");
         } while(flag != 'n' && flag != 'N');
 
-        System.out.println("\nEmpleados registrados\n==================================");
+        System.out.println("\n             Empleados registrados\n==================================");
         for(int i = 0; i < listaEmpleado.size(); i++){
+            if(listaEmpleado.get(i) instanceof EmpleadoBaseMasComision){
+                EmpleadoBaseMasComision emp = (EmpleadoBaseMasComision) listaEmpleado.get(i);
+                emp.setSalarioBase(emp.getSalarioBase() * 1.1);
+            }
+
             System.out.println(listaEmpleado.get(i));
             System.out.println("==================================");
         }

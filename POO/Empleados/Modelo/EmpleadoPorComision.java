@@ -32,7 +32,7 @@ public class EmpleadoPorComision extends Empleado{
         return ventasBrutas;
     }
 
-    public void obtenerIngresos(){
+    public void establecerIngresos(){
         setIngresos(ventasBrutas * tarifaComision);
     }
 

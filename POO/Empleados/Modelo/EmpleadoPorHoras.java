@@ -32,7 +32,7 @@ public class EmpleadoPorHoras extends Empleado{
         return horas;
     }
 
-    public void obtenerIngresos(){
+    public void establecerIngresos(){
         if(horas <= 40)
             setIngresos(sueldoBase * horas);
         else if(horas > 40)

@@ -6,7 +6,7 @@ public class EmpleadoAsalariado extends Empleado{
     public EmpleadoAsalariado(String nombre, String NSS, double sueldoSemanal){
         super(nombre, NSS);
         setSueldoSemanal(sueldoSemanal);
-        obtenerIngresos();
+        establecerIngresos();
     }
 
     public void setSueldoSemanal(double sueldoSemanal){
@@ -20,7 +20,7 @@ public class EmpleadoAsalariado extends Empleado{
         return sueldoSemanal;
     }
 
-    public void obtenerIngresos(){
+    public void establecerIngresos(){
         setIngresos(getSueldoSemanal());
     }
 

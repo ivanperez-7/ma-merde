@@ -19,7 +19,7 @@ public class EmpleadoBaseMasComision extends EmpleadoPorComision{
         return salarioBase;
     }
 
-    public void obtenerIngresos(){
+    public void establecerIngresos(){
         setIngresos(getTarifaComision()*getVentasBrutas() + salarioBase);
     }
 
