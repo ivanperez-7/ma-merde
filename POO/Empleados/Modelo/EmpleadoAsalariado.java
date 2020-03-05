@@ -23,4 +23,8 @@ public class EmpleadoAsalariado extends Empleado{
     public void obtenerIngresos(){
         setIngresos(getSueldoSemanal());
     }
+
+    public String toString(){
+        return "Empleado asalariado\n" + super.toString() + "\nSueldo semanal: " + getSueldoSemanal();
+    }
 }

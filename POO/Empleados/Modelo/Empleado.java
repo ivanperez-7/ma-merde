@@ -35,4 +35,8 @@ public abstract class Empleado{
     }
 
     public abstract void obtenerIngresos();
+
+    public String toString(){
+        return "Nombre: " + getNombre() + "\nNumero de seguro social: " + getNSS();
+    }
 }

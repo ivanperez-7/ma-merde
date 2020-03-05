@@ -83,5 +83,11 @@ public class programa{
             do {flag = leerChar.next().charAt(0);} while(flag != 's' && flag != 'S' && flag != 'n' && flag != 'N');
             System.out.println("");
         } while(flag != 'n' && flag != 'N');
+
+        System.out.println("\nEmpleados registrados\n==================================");
+        for(int i = 0; i < listaEmpleado.size(); i++){
+            System.out.println(listaEmpleado.get(i));
+            System.out.println("==================================");
+        }
     }
 }

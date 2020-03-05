@@ -35,4 +35,12 @@ public class EmpleadoPorComision extends Empleado{
     public void obtenerIngresos(){
         setIngresos(ventasBrutas * tarifaComision);
     }
+
+    public String toString_(){
+        return super.toString() + "\nVentas brutas: " + getVentasBrutas() + "\nTarifa de comisión: " + getTarifaComision();
+    }
+
+    public String toString(){
+        return "Empleado por comision\n" + this.toString_();
+    }
 }

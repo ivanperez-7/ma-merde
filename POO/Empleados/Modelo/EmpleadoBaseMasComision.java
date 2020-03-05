@@ -22,4 +22,8 @@ public class EmpleadoBaseMasComision extends EmpleadoPorComision{
     public void obtenerIngresos(){
         setIngresos(getTarifaComision()*getVentasBrutas() + salarioBase);
     }
+
+    public String toString(){
+        return "Empleado por comision más salario base\n" + super.toString_() + "\nSalario base: " + getSalarioBase();
+    }
 }
