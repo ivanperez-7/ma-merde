@@ -21,6 +21,6 @@ public class EmpleadoAsalariado extends Empleado {
     }
 
     public String toString(){
-        return "Emṕleado asalariado\n" + super.toString() + "\nSueldo: " + getSalario();
+        return "Empleado asalariado\n" + super.toString() + "\nSueldo: " + getSalario();
     }
 }
