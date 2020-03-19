@@ -25,8 +25,7 @@ def knapsack(A,S):
     return t[n][S]
 
 A = [1,2,2,4,5,2,4]
-B = list()
-S = 20
+S = 15
 
-knapsackR(A,B,len(A)-1,S)
+knapsackR(A, list(), len(A)-1, S)
 print("\n" + str(knapsack(A,S)))
