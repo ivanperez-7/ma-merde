@@ -1,16 +1,14 @@
 def printmat(A):
+    print("   ",end='')
     for i in range(len(A)):
-        print("[",end='')
+        print("%d "%(i+1),end='')
+    print("")
+
+    for i in range(len(A)):
+        print("%d ["%(i+1),end='')
         for j in range(len(A[i])):
-            if A[i][j] == True:
-                o = "T"
-            else:
-                o = "F"
-            s = " "
-            if j == len(A)-1:
-                s = ""
-            print(o + s,end='')
-        print("]")
+            print(str(A[i][j])[0] + " ",end='')
+        print("\b]")
 
 def Warshall(V,E):
     n = len(V)
@@ -25,7 +23,6 @@ def Warshall(V,E):
         for i in range(n):
             for j in range(n):
                 A[i][j] = A[i][j] or (A[i][k] and A[k][j])
-    
     printmat(A)
 
 V = [1,2,3,4,5]
