@@ -70,22 +70,17 @@ def Strassen(A,B):
 
 def printmat(A):
     r = len(A)
-    c = len(A[0])
-    
+    c = len(A[0])   
     spaces = [0 for i in range(c)]
+
     for i in range(c):
-        spaces[i] = -1
-        for j in range(r):
-            if len(str(A[j][i])) > spaces[i]:
-                spaces[i] = len(str(A[j][i]))
-    
+        spaces[i] = max([len(str(A[j][i])) for j in range(r)])
+
     for i in range(r):
         print("[",end='')
         for j in range(c):
-            print(" " * (spaces[j] - len(str(A[i][j]))) + "%d"%(A[i][j]),end='')
-            if j != c-1:
-                print(" ",end='')
-        print("]")
+            print(" " * (spaces[j] - len(str(A[i][j]))) + str(A[i][j]) + " ",end='')
+        print("\b]")
 
 m = int(input("Dimension de la matriz: "))
 
