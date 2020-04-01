@@ -25,8 +25,8 @@ def Warshall(V,E):
                 A[i][j] = A[i][j] or (A[i][k] and A[k][j])
     printmat(A)
 
-V = [1,2,3,4,5]
-E = [(1,2),(2,3),(4,3),(4,5),(1,5),(3,5),(1,4)]
+V = [1,2,3,4,5]        # array de vértices
+E = [(1,2),(2,3),(4,3),(4,5),(1,5),(3,5),(1,4)]        # array de aristas
 
 print("V = " + str(V))
 print("E = " + str(E) + "\n")
